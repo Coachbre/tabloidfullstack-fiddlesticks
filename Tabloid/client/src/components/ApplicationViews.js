@@ -4,6 +4,8 @@ import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
 
+import TagList from "./TagList";
+
 export default function ApplicationViews({ isLoggedIn }) {
 
   return (
@@ -11,6 +13,10 @@ export default function ApplicationViews({ isLoggedIn }) {
       <Switch>
         <Route path="/" exact>
           {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/tags">
+          <TagList />
         </Route>
 
         <Route path="/login">

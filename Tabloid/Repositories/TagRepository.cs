@@ -19,7 +19,7 @@ namespace Tabloid.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @" SELECT Tag.Id, Tag.Name FROM Tag ";
+                    cmd.CommandText = @" SELECT Tag.Id, Tag.Name FROM Tag ORDER BY Name";
 
                     var reader = cmd.ExecuteReader();
                     var tags = new List<Tag>();
