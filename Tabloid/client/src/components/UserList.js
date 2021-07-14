@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { getAllUsers } from "../modules/userManager";
-import { Button } from "reactstrap";
+import { Button, Table } from "reactstrap";
+import User from "./User";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);

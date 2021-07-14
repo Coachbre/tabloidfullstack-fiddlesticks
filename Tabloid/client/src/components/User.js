@@ -5,12 +5,9 @@ import { Link } from "react-router-dom";
 const User = ({ user }) => {
   return (
     <tr>
-      {/* <th scope="row">1</th> */}
-      <td>
-        {user.FirstName} {user.LastName}
-      </td>
-      <td>{user.DisplayName}</td>
-      <td>{user.UserType.Name}</td>
+      <td>{user.fullName}</td>
+      <td>{user.displayName}</td>
+      <td>{user.userType.name}</td>
     </tr>
   );
 };

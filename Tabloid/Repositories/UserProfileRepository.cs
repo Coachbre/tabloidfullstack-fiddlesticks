@@ -92,10 +92,10 @@ namespace Tabloid.Repositories
                     cmd.CommandText = @"
                           SELECT up.Id as UserId, up.FirebaseUserId, 
                                 up.FirstName, up.LastName, up.DisplayName, up.Email, 
-                                up.CreateDateTime, up.ImageLocation,up.UserTypeId ut.Id as UserTypeId, ut.Name
-                            FROM UserProfile up up.UserTypeId = ut.id
-                            JOIN UserType ut ON 
-                        ORDER BY DateCreated
+                                up.CreateDateTime, up.ImageLocation,up.UserTypeId, ut.Id as UserTypeId, ut.Name
+                            FROM UserProfile up 
+                            JOIN UserType ut ON up.UserTypeId = ut.id
+                        ORDER BY up.FirstName
                     ";
 
                     var reader = cmd.ExecuteReader();
@@ -113,43 +113,24 @@ namespace Tabloid.Repositories
                             Email = DbUtils.GetString(reader, "Email"),
                             CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                             ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
-<<<<<<< Updated upstream
-=======
-                            //FullName = UserProfile.FullName(),
->>>>>>> Stashed changes
+                            
                             UserType = new UserType()
                             {
                                 Id = DbUtils.GetInt(reader, "UserTypeId"),
                                 Name = DbUtils.GetString(reader, "Name")
                             }
-
-<<<<<<< Updated upstream
                         });
-=======
-                        }); ;
->>>>>>> Stashed changes
                     }
 
                     reader.Close();
 
                     return users;
                 }
+
             }
         }
-
-        /*
-        public UserProfile GetByFirebaseUserId(string firebaseUserId)
-        {
-            return _context.UserProfile
-                       .Include(up => up.UserType) 
-                       .FirstOrDefault(up => up.FirebaseUserId == firebaseUserId);
-        }
-
-        public void Add(UserProfile userProfile)
-        {
-            _context.Add(userProfile);
-            _context.SaveChanges();
-        }
-        */
     }
+
+
 }
+
