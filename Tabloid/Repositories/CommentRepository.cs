@@ -30,8 +30,10 @@ namespace Tabloid.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"select c.id, c.postid as commentpostid, c.userprofileid, c.subject, c.content, c.createdatetime, p.id as Postid from comment c 
+                    cmd.CommandText = @"select c.id, c.postid as commentpostid, c.userprofileid, c.subject, c.content, c.createdatetime, p.id as Postid, up.DisplayName, up.UserTypeId
+                                        from comment c 
                                         left join post p on c.postId = p.id 
+                                        join userprofile up on c.UserProfileId = up.Id
                                         where p.id =@postid";
 
                     cmd.Parameters.AddWithValue("@postid", postid);
@@ -112,7 +114,9 @@ namespace Tabloid.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                            SELECT Id, postid, userprofileid, subject, content, createdatetime FROM Comment WHERE Id=@id";
+                            SELECT Id, postid, userprofileid, subject, content, createdatetime 
+                            FROM Comment
+                        WHERE Id=@id";
 
                     cmd.Parameters.AddWithValue("@id", id);
                     SqlDataReader reader = cmd.ExecuteReader();
