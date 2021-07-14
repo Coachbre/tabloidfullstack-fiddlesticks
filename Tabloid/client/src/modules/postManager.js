@@ -1,14 +1,20 @@
-import "firebase/auth";
-import { getToken } from "./authManager";
+import { getToken } from './authManager'
 
-export const getPosts = () => {
-    return getToken().then((token) =>
-      fetch("/api/Post", {
+const baseUrl = '/api/post';
+
+export const getAllPosts = () => {
+    return getToken().then((token) => {
+      return fetch(baseUrl, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${ token }`
         }
-      })
-        .then((res) => res.json())
-        .then(setPosts));
+      }).then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("An unknown error occorred while trying to fetch all posts");
+        }
+      });
+    });
   };

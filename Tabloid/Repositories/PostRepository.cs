@@ -7,6 +7,7 @@ using Tabloid.Models;
 using Tabloid.Utils;
 
 
+
 namespace Tabloid.Repositories
 {
     public class PostRepository : BaseRepository, IPostRepository
@@ -21,17 +22,21 @@ namespace Tabloid.Repositories
 
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT p.Id AS PostId, p.Title, p.CreateDateTime, p.PublishDateTime, p.IsApproved,
-                                               c.Id AS CategoryId, c.[Name],
-                                               up.Id AS UserProfileId, up.FirstName, up.LastName
-
-                                       FROM Post p
-
-                                       LEFT JOIN Category c ON c.Id = p.CategoryId
-                                       LEFT JOIN UserProfile up ON up.Id = p.UserProfileId
-
-                                       WHERE p.IsApproved = 1
-                                       ORDER BY p.CreateDateTime";
+                    cmd.CommandText = @"SELECT p.Id, p.Title, p.Content, 
+                              p.ImageLocation AS HeaderImage,
+                              p.CreateDateTime, p.PublishDateTime, p.IsApproved, 
+                              p.CategoryId, p.UserProfileId,
+                              c.[Name] AS CategoryName,
+                              u.FirstName, u.LastName, u.DisplayName, 
+                              u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
+                              u.UserTypeId, 
+                              ut.[Name] AS UserTypeName
+                         FROM Post p
+                              LEFT JOIN Category c ON p.CategoryId = c.id
+                              LEFT JOIN UserProfile u ON p.UserProfileId = u.id
+                              LEFT JOIN UserType ut ON u.UserTypeId = ut.id
+                        WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME()
+                         ORDER BY p.CreateDateTime DESC";
 
                     var reader = cmd.ExecuteReader();
 
@@ -39,27 +44,7 @@ namespace Tabloid.Repositories
 
                     while (reader.Read())
                     {
-                        posts.Add(new Post()
-                        {
-                            Id = DbUtils.GetInt(reader, "PostId"),
-                            Title = DbUtils.GetString(reader, "Title"),
-                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime").ToString("MM/dd/yyyy"),
-                            PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime").ToString("MM/dd/yyyy"),
-                            IsApproved = reader.GetBoolean(reader.GetOrdinal("IsApproved")),
-                            CategoryId = DbUtils.GetInt(reader, "CategoryId"),
-                            /*PostCategory = new Category()
-                            {
-                                Id = DbUtils.GetInt(reader, "CategoryId"),
-                                Name = DbUtils.GetString(reader, "Name")
-                            },*/
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            PostAuthor = new UserProfile()
-                            {
-                                Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                FirstName = DbUtils.GetString(reader, "FirstName"),
-                                LastName = DbUtils.GetString(reader, "LastName")
-                            }
-                        });
+                        posts.Add(NewPostFromReader(reader));
                     }
 
                     reader.Close();
@@ -67,6 +52,41 @@ namespace Tabloid.Repositories
                     return posts;
                 }
             }
+        }
+        private Post NewPostFromReader(SqlDataReader reader)
+        {
+            return new Post()
+            {
+                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                Title = reader.GetString(reader.GetOrdinal("Title")),
+                Content = reader.GetString(reader.GetOrdinal("Content")),
+                ImageLocation = DbUtils.GetNullableString(reader, "HeaderImage"),
+                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                PublishDateTime = DbUtils.GetNullableDateTime(reader, "PublishDateTime"),
+                CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                //Category = new Category()
+                //{
+                //    Id = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                //    Name = reader.GetString(reader.GetOrdinal("CategoryName"))
+                //},
+                UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                UserProfile = new UserProfile()
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                    DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
+                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                    CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                    ImageLocation = DbUtils.GetNullableString(reader, "AvatarImage"),
+                    UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                    UserType = new UserType()
+                    {
+                        Id = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                        Name = reader.GetString(reader.GetOrdinal("UserTypeName"))
+                    }
+                }
+            };
         }
 
         public List<Post> GetUserPosts(int userProfileId)
@@ -101,12 +121,12 @@ namespace Tabloid.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "PostId"),
                             Title = DbUtils.GetString(reader, "Title"),
-                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime").ToString("MM/dd/yyyy"),
-                            PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime").ToString("MM/dd/yyyy"),
+                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
+                            PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
                             IsApproved = reader.GetBoolean(reader.GetOrdinal("IsApproved")),
                             CategoryId = DbUtils.GetInt(reader, "CategoryId"),
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            PostAuthor = new UserProfile()
+                            UserProfile = new UserProfile()
                             {
                                 Id = DbUtils.GetInt(reader, "UserProfileId"),
                                 FirstName = DbUtils.GetString(reader, "FirstName"),
@@ -153,10 +173,10 @@ namespace Tabloid.Repositories
                             Title = DbUtils.GetString(reader, "Title"),
                             Content = DbUtils.GetString(reader, "Content"),
                             ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
-                            PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime").ToString("MM/dd/yyyy"),
+                            PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
                             CategoryId = DbUtils.GetInt(reader, "CategoryId"),
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            PostAuthor = new UserProfile()
+                            UserProfile = new UserProfile()
                             {
                                 Id = DbUtils.GetInt(reader, "UserProfileId"),
                                 DisplayName = DbUtils.GetString(reader, "DisplayName")
@@ -245,5 +265,6 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
     }
 }

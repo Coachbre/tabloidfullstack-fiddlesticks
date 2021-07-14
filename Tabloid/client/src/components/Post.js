@@ -1,35 +1,17 @@
-import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Card, CardBody } from "reactstrap";
 
-
-const PostList = () => {
-  const { posts, getPosts } = useContext(PostContext);
-
-  useEffect(() => {
-    getPosts();
-  }, []);
-
+const Post = ({ post }) => {
   return (
-    <div className="posts-container">
-      <Col className="posts-header">
-        <h1>All Posts</h1>
-      </Col>
-      <hr></hr>
-      <Col>
-        {posts.map((post) => (
-          <div className="post-card" key={post.id}>
-            <Link to={`/post/GetById/${post.id}`}>
-              <h3 className="posts-title">
-                {post.title}
-              </h3>
-            </Link>
-            <p className="posts--category">{post.postCategory.name}</p>
-            <p className="posts--author">Written by: {post.postAuthor.fullName}</p>
-          </div>
-        ))}
-      </Col>
-    </div>
+    <Card>
+      <CardBody>
+        <img src={ post.imageLocation } alt={ `Image for ${ post.title }` } />
+        <h1>{ post.title }</h1>
+        <p>{ post.content }</p>
+        <p>Publish Date: { post.publishDateTime }</p>
+      </CardBody>
+    </Card>
   );
 };
 
-export default PostList;
+export default Post;
