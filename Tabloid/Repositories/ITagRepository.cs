@@ -6,7 +6,7 @@ using Tabloid.Models;
 
 namespace Tabloid.Repositories
 {
-    interface ITagRepository
+    public interface ITagRepository
     {
         List<Tag> GetAll();
         void Add(Tag tag);
