@@ -9,6 +9,8 @@ const Post = ({ post }) => {
         <h1>{ post.title }</h1>
         <p>{ post.content }</p>
         <p>Publish Date: { post.publishDateTime }</p>
+        <h5>Comments:</h5>
+        <p>{post.comment?.map(c => c.title)}</p>
       </CardBody>
     </Card>
   );

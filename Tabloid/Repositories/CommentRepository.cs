@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tabloid.Models;
+using Tabloid.Utils;
 
 namespace Tabloid.Repositories
 {
@@ -33,8 +34,8 @@ namespace Tabloid.Repositories
                     cmd.CommandText = @"select c.id, c.postid as commentpostid, c.userprofileid, c.subject, c.content, c.createdatetime, p.id as Postid, up.DisplayName, up.UserTypeId
                                         from comment c 
                                         left join post p on c.postId = p.id 
-                                        join userprofile up on c.UserProfileId = up.Id
-                                        where p.id =@postid";
+                                        join UserProfile up on c.UserProfileId = up.Id
+                                        where p.id = @postid";
 
                     cmd.Parameters.AddWithValue("@postid", postid);
 
@@ -51,8 +52,7 @@ namespace Tabloid.Repositories
                             UserProfileId = reader.GetInt32(reader.GetOrdinal("userprofileid")),
                             Subject = reader.GetString(reader.GetOrdinal("subject")),
                             Content = reader.GetString(reader.GetOrdinal("content")),
-                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("createdatetime"))
-
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("createdatetime")),
                         };
                         comments.Add(comment);
 

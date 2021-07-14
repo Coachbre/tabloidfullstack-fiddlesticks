@@ -42,6 +42,13 @@ namespace Tabloid.Controllers
             return Ok(userPosts);
         }
 
+        [HttpGet("GetWithComments")]
+        public IActionResult GetWithComments()
+        {
+            var posts = _postRepository.GetAllWithComments();
+            return Ok(posts);
+        }
+
         [HttpGet("GetById/{postId}")]
         public IActionResult GetById(int postId)
         {

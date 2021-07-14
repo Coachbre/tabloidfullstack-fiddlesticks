@@ -8,7 +8,7 @@ export default function Comment({ comment }) {
           <strong>{comment.subject}</strong>
           <p>{comment.content}</p>
           <p>{comment.UserProfile.displayName}</p>          
-          <p>{comment.creationDate}</p>
+          <p>{comment.CreateDateTime}</p>
       </CardBody>
     </Card>
   );
