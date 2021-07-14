@@ -8,8 +8,10 @@ namespace Tabloid.Repositories
 {
     public interface ICategoryRepository
     {
-        List<Category> GetAll();
+        List<Category> GetAllCategories();
         Category GetCategoryById(int id);
-       
+        void Add(Category category);
+        void DeleteCategory(int categoryId);
+        void UpdateCategory(Category category);
     }
 }
