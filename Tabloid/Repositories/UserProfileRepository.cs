@@ -113,13 +113,21 @@ namespace Tabloid.Repositories
                             Email = DbUtils.GetString(reader, "Email"),
                             CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                             ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+<<<<<<< Updated upstream
+=======
+                            //FullName = UserProfile.FullName(),
+>>>>>>> Stashed changes
                             UserType = new UserType()
                             {
                                 Id = DbUtils.GetInt(reader, "UserTypeId"),
                                 Name = DbUtils.GetString(reader, "Name")
                             }
 
+<<<<<<< Updated upstream
                         });
+=======
+                        }); ;
+>>>>>>> Stashed changes
                     }
 
                     reader.Close();
