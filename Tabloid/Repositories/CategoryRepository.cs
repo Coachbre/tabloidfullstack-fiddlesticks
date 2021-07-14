@@ -13,7 +13,19 @@ namespace Tabloid.Repositories
         public CategoryRepository(IConfiguration config) : base(config) { }
         public void Add(Category category)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Category (Name)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@name)";
+                    cmd.Parameters.AddWithValue("@name", category.Name);
+
+                    category.Id = (int)cmd.ExecuteScalar();
+                }
+            }
         }
 
         public void DeleteCategory(int categoryId)
