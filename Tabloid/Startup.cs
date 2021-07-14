@@ -25,6 +25,11 @@ namespace Tabloid
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
 
+            services.AddTransient<ITagRepository, TagRepository>();
+
+            services.AddTransient<IPostRepository, PostRepository>();
+
+
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
             services
@@ -43,7 +48,7 @@ namespace Tabloid
                 });
 
             services.AddControllers();
-
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tabloid", Version = "v1" });
