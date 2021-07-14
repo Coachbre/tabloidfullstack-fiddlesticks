@@ -4,7 +4,11 @@ import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
 
+
 import TagList from "./TagList";
+
+import PostList from "./PostList";
+
 
 export default function ApplicationViews({ isLoggedIn }) {
 
@@ -26,6 +30,11 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route path="/register">
           <Register />
         </Route>
+
+        <Route exact path="/post">
+          {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
+        </Route>
+
       </Switch>
     </main>
   );
