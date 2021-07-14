@@ -19,9 +19,9 @@ export const getAllPosts = () => {
     });
   };
 
-  export const getUserPost = () => {
+  export const getUserPost = (id) => {
     return getToken().then((token) => {
-      return fetch(`${baseUrl}/GetByUser?userId=${userProfile.id}`, {
+      return fetch(`${baseUrl}/GetByUser?userId=${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${ token }`

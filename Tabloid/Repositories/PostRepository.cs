@@ -128,6 +128,11 @@ namespace Tabloid.Repositories
                             PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
                             IsApproved = reader.GetBoolean(reader.GetOrdinal("IsApproved")),
                             CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                            Category = new Category()
+                            {
+                                Id = DbUtils.GetInt(reader, "CategoryId"),
+                                Name = DbUtils.GetString(reader, "Name")
+                            },
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
                             UserProfile = new UserProfile()
                             {
