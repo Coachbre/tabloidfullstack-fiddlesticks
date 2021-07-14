@@ -31,12 +31,15 @@ namespace Tabloid.Repositories
                               u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
                               u.UserTypeId, 
                               ut.[Name] AS UserTypeName
+
                          FROM Post p
+
                               LEFT JOIN Category c ON p.CategoryId = c.id
                               LEFT JOIN UserProfile u ON p.UserProfileId = u.id
                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id
+
                         WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME()
-                         ORDER BY p.CreateDateTime DESC";
+                        ORDER BY p.CreateDateTime DESC";
 
                     var reader = cmd.ExecuteReader();
 
