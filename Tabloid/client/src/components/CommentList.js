@@ -6,25 +6,25 @@ import  Comment  from "./Comment";
 
 const CommentList = () => {
 
-    const [comments, setComments] = useState();
-
+    const [comments, setComments] = useState([]);
     const { postId } = useParams();
 
-    useEffect(() => {
-        GetCommentByPost(postId)
-            .then(setComments);
-    }, []);
 
-    // if (!comment) {
-    //     return null;
-    // }
+    useEffect(() => {
+        console.log("hello");
+        GetCommentByPost(postId)
+        .then(setComments)
+    }, [postId]);
+
+
+    debugger
         return (
             <>
                 <h1>Post Comments:</h1>
                 <div className="container">
                     <div className="row justify-content-center">
-                        {comments.map((comment) => (
-                            <Comment comment={comment} key={comment.id} />
+                        {comments?.map((comment) => (
+                            <Comment comment={comment} key={comment.Id} />
                         ))}
                     </div>
                 </div>

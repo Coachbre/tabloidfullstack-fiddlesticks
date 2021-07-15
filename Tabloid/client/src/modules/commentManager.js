@@ -1,3 +1,5 @@
+import { getToken } from './authManager'
+
 const baseUrl = '/api/comment';
 
 export const GetCommentByPost = (postId) => {
