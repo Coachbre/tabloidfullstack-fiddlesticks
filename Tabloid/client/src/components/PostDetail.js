@@ -30,6 +30,7 @@ const PostDetails = () => {
                     <p>{post.content}</p>
                     <p>{new Date(post.publishDateTime).toLocaleDateString()}</p>
                     <Button className="b addComment"><Link className="a" to={`/comment/create/${post.id}`}>Add Comment</Link></Button>
+                    <Button className="b viewComment"><Link className="a" to={`/comment/GetByPostId/${post.id}`}>View Comments</Link></Button>
                 </CardBody>
 
             </Card>
