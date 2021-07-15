@@ -23,7 +23,7 @@ namespace Tabloid.Controllers
             return Ok(_userProfileRepository.GetAll());
         }
 
-        [HttpGet("{Id}")]
+        [HttpGet("GetById/{Id}")]
         public IActionResult GetUserById(int id)
         {
             var userProfile = _userProfileRepository.GetByUserId(id);
