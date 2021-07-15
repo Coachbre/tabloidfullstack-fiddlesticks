@@ -5,7 +5,7 @@ using Tabloid.Models;
 using Tabloid.Repositories;
 
 namespace Tabloid.Controllers
-{
+{   
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -15,6 +15,23 @@ namespace Tabloid.Controllers
         public UserProfileController(IUserProfileRepository userProfileRepository)
         {
             _userProfileRepository = userProfileRepository;
+        }
+
+        [HttpGet]
+        public IActionResult GetAllUsers()
+        {
+            return Ok(_userProfileRepository.GetAll());
+        }
+
+        [HttpGet("{Id}")]
+        public IActionResult GetUserById(int id)
+        {
+            var userProfile = _userProfileRepository.GetByUserId(id);
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+            return Ok();
         }
 
         [HttpGet("{firebaseUserId}")]
