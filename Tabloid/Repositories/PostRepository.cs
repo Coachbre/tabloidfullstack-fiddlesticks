@@ -103,12 +103,9 @@ namespace Tabloid.Repositories
                     cmd.CommandText = @"SELECT p.Id AS PostId, p.Title, p.CreateDateTime, p.PublishDateTime, p.IsApproved,
                                                c.Id AS CategoryId, c.[Name],
                                                up.Id AS UserProfileId, up.FirstName, up.LastName
-
                                        FROM Post p
-
                                        LEFT JOIN Category c ON c.Id = p.CategoryId
                                        LEFT JOIN UserProfile up ON up.Id = p.UserProfileId
-
                                        WHERE up.id = @userProfileId
                                        ORDER BY p.CreateDateTime";
 

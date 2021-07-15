@@ -32,7 +32,7 @@ namespace Tabloid.Controllers
         }
 
         [HttpGet("GetByUser")]
-        public IActionResult GetByUser(int userId)
+        public IActionResult GetByUser(int id, int userId)
         {
             var userPosts = _postRepository.GetUserPosts(userId);
             if (userPosts == null)

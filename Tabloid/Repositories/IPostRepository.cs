@@ -16,6 +16,5 @@ namespace Tabloid.Repositories
         void Update(Post post);
 
         void Delete(int postId);
-
     }
 }
