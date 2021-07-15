@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, CardBody } from "reactstrap";
-import CommentList from "./CommentList";
 
 const Comment = ({ comment }) => {
   return (
@@ -8,7 +7,8 @@ const Comment = ({ comment }) => {
       <CardBody>
           <strong>{comment.subject}</strong>
           <p>{comment.content}</p>
-          {/* <p>{comment.userProfile.displayName}</p>           */}
+          <p>Date posted: {comment.createDateTime}</p>
+          <p>Posted by: {comment.userProfile.displayName}</p>          
       </CardBody>
     </Card>
   );
