@@ -10,7 +10,7 @@ import TagList from "./TagList";
 import TagForm from "./TagForm";
 
 import PostList from "./PostList";
-import UserPostList from "./UserPostList";
+import MyPost from "./MyPost";
 import PostDetails from "./PostDetail";
 import UserDetails from "./UserDetails";
 
