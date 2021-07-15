@@ -33,6 +33,7 @@ export default function Header({ isLoggedIn }) {
                   </NavLink>
                 </NavItem>
 
+<<<<<<< HEAD
                 <NavLink tag={RRNavLink} to="/post/add">Add Post</NavLink>
                 <NavLink tag={RRNavLink} to="/post">Posts</NavLink>
                 <NavLink tag={RRNavLink} className="nav-link" to="/UserPosts">My Posts</NavLink>
@@ -41,6 +42,18 @@ export default function Header({ isLoggedIn }) {
               
               
             
+=======
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/post">Posts</NavLink>
+                </NavItem>
+
+                <NavItem>
+                  <NavLink tag={RRNavLink} className="nav-link" to="/UserPosts">My Posts</NavLink>
+                </NavItem>
+
+
+
+>>>>>>> c9ae7ff9d8c6402ddd15e0b37a07ec3002a9d390
 
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/tags">
@@ -48,6 +61,10 @@ export default function Header({ isLoggedIn }) {
                   </NavLink>
                 </NavItem>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c9ae7ff9d8c6402ddd15e0b37a07ec3002a9d390
               </>
             )}
 

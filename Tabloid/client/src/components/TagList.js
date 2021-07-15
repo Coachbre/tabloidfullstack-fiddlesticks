@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Tag from './Tag';
 import { getAllTags } from "../modules/tagManager";
 
@@ -21,6 +22,9 @@ const TagList = () => {
                     key={tag.id} />
                 ))}
             </div>
+            <Link to="/tags/add">
+                Create A New Tag
+            </Link>
         </div>
     );
 };
