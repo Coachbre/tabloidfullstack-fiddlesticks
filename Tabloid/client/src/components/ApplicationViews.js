@@ -5,17 +5,14 @@ import Register from "./Register";
 import Hello from "./Hello";
 import CategoryList from "./CategoryList";
 import UserList from "./UserList";
-
+import CommentList from "./CommentList";
 import TagList from "./TagList";
 import TagForm from "./TagForm";
 
 import PostList from "./PostList";
-
 import UserPostList from "./UserPostList";
 import PostDetails from "./PostDetail";
-
 import UserDetails from "./UserDetails";
-
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -48,18 +45,19 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route exact path="/post">
           {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
         </Route>
+        <Route path="/comment/GetByPostId/:postId(\d+)">
+          {isLoggedIn ? <CommentList /> : <Redirect to="/login" />}
+        </Route>
         <Route exact path="/UserPosts">
-        {isLoggedIn ? <UserPostList /> : <Redirect to="/login" />}
+          {isLoggedIn ? <UserPostList /> : <Redirect to="/login" />}
         </Route>
         <Route path="/post/:id(\d+)" exact>
-              {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
+          {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
-
-
         <Route exact path="/users">
           {isLoggedIn ? <UserList /> : <Redirect to="/login" />}
         </Route>
-        <Route path="/users/:id">
+        <Route path="/users/:id(\d+)">
           {isLoggedIn ? <UserDetails /> : <Redirect to="/login" />}
         </Route>
       </Switch>

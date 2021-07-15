@@ -42,10 +42,17 @@ namespace Tabloid.Controllers
             return Ok(userPosts);
         }
 
-        [HttpGet("GetById/{id}")]
-        public IActionResult GetById(int id)
+        [HttpGet("GetWithComments")]
+        public IActionResult GetWithComments()
         {
-            var post = _postRepository.GetPostById(id);
+            var posts = _postRepository.GetAllWithComments();
+            return Ok(posts);
+        }
+
+        [HttpGet("GetById/{postId}")]
+        public IActionResult GetById(int postId)
+        {
+            var post = _postRepository.GetPostById(postId);
             if (post == null)
             {
                 return NotFound();
