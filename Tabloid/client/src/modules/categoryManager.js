@@ -1,6 +1,7 @@
 import { getToken } from "./authManager";
 const baseUrl = '/api/category';
 
+
 export const getAllCategories = () => {
     return getToken().then((token) => {
         return fetch(baseUrl, {
@@ -27,6 +28,7 @@ export const addCategory = (category) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(category)
-        }).then((res) => res.json());
+        })
+        // .then((res) => res.json());
     })
 }
