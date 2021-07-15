@@ -26,6 +26,7 @@ const UserList = () => {
   return (
     <div className="container">
       <div className="row justify-content-center">
+        <h2>User Profiles</h2>
         <Table>
           <thead>
             <tr>
