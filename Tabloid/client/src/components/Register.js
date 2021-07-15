@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useHistory } from "react-router-dom";
 import { register } from "../modules/authManager";
+import logo1 from "../images/logo1.png";
+
 
 export default function Register() {
   const history = useHistory();
@@ -26,8 +28,9 @@ export default function Register() {
  };
 
   return (
-    <Form onSubmit={registerClick}>
-      <fieldset>
+    <Form onSubmit={registerClick} className="form">
+      <img className="logo1" src={logo1} alt="logo1" />
+      <fieldset className="loginform">
         <FormGroup>
           <Label htmlFor="firstName">First Name</Label>
           <Input id="firstName" type="text" onChange={e => setFirstName(e.target.value)} />
@@ -57,7 +60,7 @@ export default function Register() {
           <Input id="confirmPassword" type="password" onChange={e => setConfirmPassword(e.target.value)} />
         </FormGroup>
         <FormGroup>
-          <Button>Register</Button>
+          <Button className="loginbutton">Register</Button>
         </FormGroup>
       </fieldset>
     </Form>

@@ -48,6 +48,7 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route path="/comment/GetByPostId/:postId(\d+)">
           {isLoggedIn ? <CommentList /> : <Redirect to="/login" />}
         </Route>
+
         <Route exact path="/myPost">
           <MyPost /> 
         </Route>

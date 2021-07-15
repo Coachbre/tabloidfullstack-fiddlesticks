@@ -12,6 +12,7 @@ const Post = ({ post }) => {
   return (
     <Card>
       <CardBody>
+
         <img src={post.imageLocation} alt={post.title} />
         <br />
         <p>
@@ -21,6 +22,7 @@ const Post = ({ post }) => {
         </p>
         <p>{post.content}</p>
         <p>Publish Date: {publishDateTime}</p>
+
       </CardBody>
     </Card>
   );
