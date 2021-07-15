@@ -7,6 +7,7 @@ import CategoryList from "./CategoryList";
 
 
 import TagList from "./TagList";
+import TagForm from "./TagForm";
 
 import PostList from "./PostList";
 
@@ -22,6 +23,10 @@ export default function ApplicationViews({ isLoggedIn }) {
 
         <Route path="/tags">
           <TagList />
+        </Route>
+
+        <Route path="/tags/add">
+          <TagForm />
         </Route>
 
         <Route path="/login">

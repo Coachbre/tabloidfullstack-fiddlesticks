@@ -52,6 +52,7 @@ namespace Tabloid.Repositories
 
                     DbUtils.AddParameter(cmd, "@Name", tag.Name);
 
+
                     tag.Id = (int)cmd.ExecuteScalar();
                 }
             }

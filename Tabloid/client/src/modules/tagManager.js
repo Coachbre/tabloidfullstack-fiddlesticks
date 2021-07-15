@@ -6,7 +6,7 @@ export const getAllTags = () => {
     .then((res) => res.json())
 };
 
-export const addVideo = (tag) => {
+export const addTag = (tag) => {
     return fetch(baseUrl, {
         method: "POST",
         headers: {

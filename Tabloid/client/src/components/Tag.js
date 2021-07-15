@@ -6,7 +6,7 @@ const Tag = ({ tag }) => {
         <Card>
             <CardBody>
                 <p>{tag.name}</p>
-          
+                <button>Delete?</button>
             </CardBody>   
         </Card>
     );

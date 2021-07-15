@@ -22,8 +22,8 @@ const TagList = () => {
                     key={tag.id} />
                 ))}
             </div>
-            <Link to={`/tags/add`}>
-                <p>Create A New Tag</p>
+            <Link to="/tags/add">
+                Create A New Tag
             </Link>
         </div>
     );
