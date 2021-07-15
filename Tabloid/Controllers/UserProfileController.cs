@@ -23,7 +23,7 @@ namespace Tabloid.Controllers
             return Ok(_userProfileRepository.GetAll());
         }
 
-        [HttpGet("{Id}")]
+        [HttpGet("GetById/{Id}")]
         public IActionResult GetUserById(int id)
         {
             var userProfile = _userProfileRepository.GetByUserId(id);
@@ -31,7 +31,7 @@ namespace Tabloid.Controllers
             {
                 return NotFound();
             }
-            return Ok();
+            return Ok(userProfile);
         }
 
         [HttpGet("{firebaseUserId}")]

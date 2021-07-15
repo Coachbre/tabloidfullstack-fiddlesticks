@@ -16,7 +16,6 @@ import PostDetails from "./PostDetail";
 
 import UserDetails from "./UserDetails";
 
-
 export default function ApplicationViews({ isLoggedIn }) {
   return (
     <main>
@@ -49,17 +48,16 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
         </Route>
         <Route exact path="/UserPosts">
-        {isLoggedIn ? <UserPostList /> : <Redirect to="/login" />}
+          {isLoggedIn ? <UserPostList /> : <Redirect to="/login" />}
         </Route>
         <Route path="/post/:id(\d+)" exact>
-              {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
+          {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
-
 
         <Route exact path="/users">
           {isLoggedIn ? <UserList /> : <Redirect to="/login" />}
         </Route>
-        <Route path="/users/:id">
+        <Route path="/users/:id(\d+)">
           {isLoggedIn ? <UserDetails /> : <Redirect to="/login" />}
         </Route>
       </Switch>
