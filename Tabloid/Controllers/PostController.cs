@@ -90,13 +90,13 @@ namespace Tabloid.Controllers
         //    return NoContent();
         //}
 
-        //// Delete an unwated post
-        //[HttpDelete("delete/{id}")]
-        //public IActionResult Delete(int id)
-        //{
-        //    _postRepository.Delete(id);
-        //    return NoContent();
-        //}
+        // Delete an unwated post
+        [HttpDelete("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            _postRepository.Delete(id);
+            return NoContent();
+        }
 
         // Get the current user
         private UserProfile GetCurrentUserProfile()
