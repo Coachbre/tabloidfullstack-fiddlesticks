@@ -19,9 +19,9 @@ export const getAllPosts = () => {
     });
   };
 
-  export const getUserPost = (id) => {
+  export const getByUser = (id) => {
     return getToken().then((token) => {
-      return fetch(`${baseUrl}/GetUserPost`, {
+      return fetch(`${baseUrl}/GetByUser`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${ token }`
@@ -30,7 +30,7 @@ export const getAllPosts = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("An unknown error occorred while trying to fetch all posts");
+          throw new Error("An unknown error occorred while trying to fetch your posts");
         }
       });
     });
@@ -47,15 +47,15 @@ export const getAllPosts = () => {
       });
   };
 
-  export  const addPost = (post) => {
-    return getToken().then((token) =>
-      fetch(baseUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(post),
-      })
-    );
-  };
+  // export  const addPost = (post) => {
+  //   return getToken().then((token) =>
+  //     fetch(baseUrl, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify(post),
+  //     })
+  //   );
+  // };

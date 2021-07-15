@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getUserPost } from "../modules/postManager";
+import { getByUser } from "../modules/postManager";
 import Post from "./Post"
 
-const UserPostList = () => {
+const MyPost = () => {
     const [ posts, setPosts ] = useState([]);
 
     const getPost = () => {
-        return getUserPost()
+        return getByUser()
             .then(posts => setPosts(posts))
     }
 
@@ -17,7 +17,7 @@ const UserPostList = () => {
 
     return (
 <>
-            <h1>Latest Posts</h1>
+            <h1>My Posts</h1>
             <div className="container">
                 <div className="row justify-content-center">
                     {posts.map((post) => (
@@ -29,4 +29,4 @@ const UserPostList = () => {
     );
 };
 
-export default UserPostList;
+export default MyPost;

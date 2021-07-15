@@ -25,12 +25,14 @@ namespace Tabloid.Controllers
             _userProfileRepository = userProfileRepository;
         }
 
+        // Get all the posts
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_postRepository.GetAll());
         }
 
+        // Get a user's post
         [HttpGet("GetByUser")]
         public IActionResult GetByUser()
         {
@@ -46,6 +48,7 @@ namespace Tabloid.Controllers
             }
         }
 
+        // Get a post by an Id
         [HttpGet("GetById/{id}")]
         public IActionResult GetById(int id)
         {
@@ -57,34 +60,38 @@ namespace Tabloid.Controllers
             return Ok(post);
         }
 
-        [HttpPost("addPost")]
-        public IActionResult Post(Post post)
-        {
-            var currentUserProfile = GetCurrentUserProfile();
-            post.UserProfileId = currentUserProfile.Id;
-            _postRepository.Add(post);
-            return CreatedAtAction("Get", new { id = post.Id }, post);
-        }
+        //// Adding a new post
+        //[HttpPost("addPost")]
+        //public IActionResult Post(Post post)
+        //{
+        //    var currentUserProfile = GetCurrentUserProfile();
+        //    post.UserProfileId = currentUserProfile.Id;
+        //    _postRepository.Add(post);
+        //    return CreatedAtAction("Get", new { id = post.Id }, post);
+        //}
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, Post post)
-        {
-            if (id != post.Id)
-            {
-                return BadRequest();
-            }
+        //// Editting a post
+        //[HttpPut("{id}")]
+        //public IActionResult Put(int id, Post post)
+        //{
+        //    if (id != post.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            _postRepository.Update(post);
-            return NoContent();
-        }
+        //    _postRepository.Update(post);
+        //    return NoContent();
+        //}
 
-        [HttpDelete("delete/{id}")]
-        public IActionResult Delete(int id)
-        {
-            _postRepository.Delete(id);
-            return NoContent();
-        }
+        //// Delete an unwated post
+        //[HttpDelete("delete/{id}")]
+        //public IActionResult Delete(int id)
+        //{
+        //    _postRepository.Delete(id);
+        //    return NoContent();
+        //}
 
+        // Get the current user
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

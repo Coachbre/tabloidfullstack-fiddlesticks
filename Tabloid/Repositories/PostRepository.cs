@@ -114,7 +114,7 @@ namespace Tabloid.Repositories
                               LEFT JOIN Category c ON p.CategoryId = c.id
                               LEFT JOIN UserProfile u ON p.UserProfileId = u.id
                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id
-                        WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME() AND u.FirebaseUserId = @FirebaseUserId
+                        WHERE PublishDateTime < SYSDATETIME() AND u.FirebaseUserId = @FirebaseUserId
                         ORDER BY PublishDateTime DESC";
 
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", FirebaseUserId);
