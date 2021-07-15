@@ -24,7 +24,7 @@ namespace Tabloid.Repositories
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-        public List<Comment> GetAllCommentsByPostId(int postid)
+        public List<Comment> GetAllCommentsByPostId(int postId)
         {
             using (var conn = Connection)
             {
@@ -37,7 +37,7 @@ namespace Tabloid.Repositories
                                         join UserProfile up on c.UserProfileId = up.Id
                                         where p.id = @postid";
 
-                    cmd.Parameters.AddWithValue("@postid", postid);
+                    cmd.Parameters.AddWithValue("@postid", postId);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 

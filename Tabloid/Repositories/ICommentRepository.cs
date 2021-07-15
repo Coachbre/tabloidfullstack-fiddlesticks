@@ -8,7 +8,7 @@ namespace Tabloid.Repositories
     {
         void CreateComment(Comment comment);
         void DeleteComment(int commentId);
-        List<Comment> GetAllCommentsByPostId(int postid);
+        List<Comment> GetAllCommentsByPostId(int postId);
         Comment GetCommentById(int id);
         void UpdateComment(Comment comment);
     }

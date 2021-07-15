@@ -52,7 +52,7 @@ namespace Tabloid.Controllers
         [HttpGet("GetById/{postId}")]
         public IActionResult GetById(int postId)
         {
-            var post = _postRepository.GetPostById(id);
+            var post = _postRepository.GetPostById(postId);
             if (post == null)
             {
                 return NotFound();

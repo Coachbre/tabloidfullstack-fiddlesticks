@@ -7,6 +7,7 @@ const Post = ({ post }) => {
     <Card>
       <CardBody>
         <img src={ post.imageLocation } alt={ post.title }/>
+        <br />
         <Link to={`/post/${post.id}`}>
             <strong>{post.title}</strong>
           </Link>
