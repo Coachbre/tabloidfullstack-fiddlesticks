@@ -3,6 +3,10 @@ import { Card, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 
 const Post = ({ post }) => {
+
+  const date = new Date(post.publishDateTime);
+  const publishDateTime = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+
   return (
     <Card>
       <CardBody>
@@ -13,7 +17,7 @@ const Post = ({ post }) => {
           </Link>
           </p>
         <p>{ post.content }</p>
-        {/*<p>Publish Date: { post.publishDateTime }</p>*/}
+        <p>Publish Date: { publishDateTime }</p>
       </CardBody>
     </Card>
   );

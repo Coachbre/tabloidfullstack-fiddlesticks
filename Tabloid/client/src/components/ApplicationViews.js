@@ -10,7 +10,7 @@ import TagList from "./TagList";
 import TagForm from "./TagForm";
 
 import PostList from "./PostList";
-import PostForm from "./PostForm";
+//import PostForm from "./PostForm";
 import UserPostList from "./UserPostList";
 import PostDetails from "./PostDetail";
 
@@ -49,14 +49,14 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
         </Route>
         <Route exact path="/UserPosts">
-        {isLoggedIn ? <UserPostList /> : <Redirect to="/login" />}
+           <UserPostList /> 
         </Route>
         <Route path="/post/:id(\d+)" exact>
-              {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
+          {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
-        <Route path="/post/add" exact>
+        {/* <Route path="/post/addPost" exact>
               {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
-        </Route>
+        </Route> */}
 
 
         <Route exact path="/users">

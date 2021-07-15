@@ -7,14 +7,14 @@ namespace Tabloid.Repositories
     {
         List<Post> GetAll();
 
-        List<Post> GetUserPosts(int userProfileId);
+        public List<Post> GetUserPosts(string FirebaseUserId);
 
-        Post GetPostById(int PostId);
+        Post GetPostById(int id);
 
         void Add(Post post);
 
         void Update(Post post);
 
-        void Delete(int postId);
+        void Delete(int id);
     }
 }
