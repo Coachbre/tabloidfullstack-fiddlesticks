@@ -7,6 +7,7 @@ import CategoryList from "./CategoryList";
 import UserList from "./UserList";
 
 import TagList from "./TagList";
+import TagForm from "./TagForm";
 
 import PostList from "./PostList";
 
@@ -24,8 +25,12 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/tags">
+        <Route exact path="/tags">
           <TagList />
+        </Route>
+
+        <Route exact path="/tags/add">
+          <TagForm />
         </Route>
 
         <Route path="/login">
@@ -59,5 +64,6 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Route>
       </Switch>
     </main>
+    //EXACT PATH can be used when routes begin the same
   );
 }
