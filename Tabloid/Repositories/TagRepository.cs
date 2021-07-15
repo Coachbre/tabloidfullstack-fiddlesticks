@@ -40,7 +40,22 @@ namespace Tabloid.Repositories
 
         public void Add(Tag tag)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Tag (Name)
+                        OUTPUT INSERTED.ID
+                        VALUES (@Name)";
+
+                    DbUtils.AddParameter(cmd, "@Name", tag.Name);
+
+
+                    tag.Id = (int)cmd.ExecuteScalar();
+                }
+            }
         }
 
         public void Delete(int id)
