@@ -21,7 +21,8 @@ namespace Tabloid.Repositories
                     cmd.CommandText = @"INSERT INTO Category (Name)
                                         OUTPUT INSERTED.ID
                                         VALUES (@name)";
-                    cmd.Parameters.AddWithValue("@name", category.Name);
+
+                    DbUtils.AddParameter(cmd, "@name", category.Name);
 
                     category.Id = (int)cmd.ExecuteScalar();
                 }
