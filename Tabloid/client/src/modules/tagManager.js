@@ -6,7 +6,7 @@ export const getAllTags = () => {
     .then((res) => res.json())
 };
 
-export const getTag = (id) => {
+export const getTagById = (id) => {
     return fetch(`${baseUrl}/${id}`).then((res) => res.json());
 };
 
@@ -20,12 +20,12 @@ export const addTag = (tag) => {
     });
 };
 
-export const deleteTag = (tag) => {
+export const deleteTag = (id) => {
     return fetch(baseUrl, {
-        method: "POST",
+        method: "DELETE",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(tag),
+        body: JSON.stringify(id),
     });
 };
