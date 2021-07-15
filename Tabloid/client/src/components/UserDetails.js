@@ -23,7 +23,8 @@ const UserDetails = () => {
         <div className="col-sm-12 col-lg-6">
           <Card>
             <CardBody>
-              <p>{user.fullname}</p>
+              <img src={user.imageLocation} />
+              <p>{user.fullName}</p>
               <p>{user.displayName}</p>
               <p>{user.email}</p>
               <p>{user.createDateTime}</p>
