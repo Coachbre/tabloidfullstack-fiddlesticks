@@ -46,3 +46,16 @@ export const getAllPosts = () => {
           }).then((res) => res.json())
       });
   };
+
+  export  const addPost = (post) => {
+    return getToken().then((token) =>
+      fetch(baseUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(post),
+      })
+    );
+  };

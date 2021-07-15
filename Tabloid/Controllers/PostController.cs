@@ -56,8 +56,12 @@ namespace Tabloid.Controllers
         [HttpPost("add")]
         public IActionResult Post(Post post)
         {
-            var currentUserProfile = GetCurrentUserProfile();
-            post.UserProfileId = currentUserProfile.Id;
+            DateTime date = DateTime.Now;
+
+            post.CreateDateTime = date;
+            post.PublishDateTime = date;
+            post.IsApproved = true;
+
             _postRepository.Add(post);
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
@@ -74,10 +78,10 @@ namespace Tabloid.Controllers
             return NoContent();
         }
 
-        [HttpDelete("delete/{postId}")]
-        public IActionResult Delete(int postId)
+        [HttpDelete("delete/{id}")]
+        public IActionResult Delete(int id)
         {
-            _postRepository.Delete(postId);
+            _postRepository.Delete(id);
             return NoContent();
         }
 

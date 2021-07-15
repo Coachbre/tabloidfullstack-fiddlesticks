@@ -39,7 +39,7 @@ namespace Tabloid.Repositories
                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id
 
                         WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME()
-                        ORDER BY p.CreateDateTime DESC";
+                        ORDER BY p.CreateDateTime Desc";
 
                     var reader = cmd.ExecuteReader();
 
