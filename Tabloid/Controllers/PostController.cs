@@ -25,21 +25,27 @@ namespace Tabloid.Controllers
             _userProfileRepository = userProfileRepository;
         }
 
+        // Get all the posts
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_postRepository.GetAll());
         }
 
+        // Get a user's post
         [HttpGet("GetByUser")]
-        public IActionResult GetByUser(int userId)
+        public IActionResult GetByUser()
         {
-            var userPosts = _postRepository.GetUserPosts(userId);
-            if (userPosts == null)
+            var user = GetCurrentUserProfile();
+            if (user == null)
             {
-                return NotFound();
+                return Unauthorized();
             }
-            return Ok(userPosts);
+            else
+            {
+                var posts = _postRepository.GetUserPosts(user.FirebaseUserId);
+                return Ok(posts);
+            }
         }
 
         [HttpGet("GetWithComments")]
@@ -49,10 +55,11 @@ namespace Tabloid.Controllers
             return Ok(posts);
         }
 
-        [HttpGet("GetById/{postId}")]
-        public IActionResult GetById(int postId)
+        // Get a post by an Id
+        [HttpGet("GetById/{id}")]
+        public IActionResult GetById(int id)
         {
-            var post = _postRepository.GetPostById(postId);
+            var post = _postRepository.GetPostById(id);
             if (post == null)
             {
                 return NotFound();
@@ -60,38 +67,49 @@ namespace Tabloid.Controllers
             return Ok(post);
         }
 
-        [HttpPost("add")]
-        public IActionResult Post(Post post)
-        {
-            var currentUserProfile = GetCurrentUserProfile();
-            post.UserProfileId = currentUserProfile.Id;
-            _postRepository.Add(post);
-            return CreatedAtAction("Get", new { id = post.Id }, post);
-        }
+        //// Adding a new post
+        //[HttpPost("addPost")]
+        //public IActionResult Post(Post post)
+        //{
+        //    var currentUserProfile = GetCurrentUserProfile();
+        //    post.UserProfileId = currentUserProfile.Id;
+        //    _postRepository.Add(post);
+        //    return CreatedAtAction("Get", new { id = post.Id }, post);
+        //}
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, Post post)
-        {
-            if (id != post.Id)
-            {
-                return BadRequest();
-            }
+        //// Editting a post
+        //[HttpPut("{id}")]
+        //public IActionResult Put(int id, Post post)
+        //{
+        //    if (id != post.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            _postRepository.Update(post);
-            return NoContent();
-        }
+        //    _postRepository.Update(post);
+        //    return NoContent();
+        //}
 
-        [HttpDelete("delete/{postId}")]
-        public IActionResult Delete(int postId)
-        {
-            _postRepository.Delete(postId);
-            return NoContent();
-        }
+        //// Delete an unwated post
+        //[HttpDelete("delete/{id}")]
+        //public IActionResult Delete(int id)
+        //{
+        //    _postRepository.Delete(id);
+        //    return NoContent();
+        //}
 
+        // Get the current user
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            if (firebaseUserId != null)
+            {
+                return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
