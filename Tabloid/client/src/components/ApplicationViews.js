@@ -21,11 +21,11 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/tags">
+        <Route exact path="/tags">
           <TagList />
         </Route>
 
-        <Route path="/tags/add">
+        <Route exact path="/tags/add">
           <TagForm />
         </Route>
 
@@ -47,5 +47,6 @@ export default function ApplicationViews({ isLoggedIn }) {
 
       </Switch>
     </main>
+    //EXACT PATH can be used when routes begin the same
   );
 };
