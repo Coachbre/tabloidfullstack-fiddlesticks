@@ -4,14 +4,13 @@ import { GetCommentByPost } from "../modules/commentManager";
 import  Comment  from "./Comment";
 import { Button } from "reactstrap";
 
-const CommentList = () => {
+const CommentList = (post) => {
 
     const [comments, setComments] = useState([]);
     const { postId } = useParams();
 
 
     useEffect(() => {
-        console.log("hello");
         GetCommentByPost(postId)
         .then(setComments)
     }, [postId]);
@@ -20,7 +19,7 @@ const CommentList = () => {
             <>
                 <h1>Post Comments:</h1>
                 <div className="container">
-                    {/* <h3>{Comment.post.title}</h3> */}
+                    {/* <h3>{comments.title}</h3> */}
                     <div className="row justify-content-center">
                         {comments?.map((comment) => (
                             <Comment comment={comment} key={comment.Id} />

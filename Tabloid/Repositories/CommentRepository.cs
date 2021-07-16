@@ -85,7 +85,7 @@ namespace Tabloid.Repositories
                     cmd.CommandText = @"
                             INSERT INTO Comment (postid, userprofileid, subject, content, createdatetime)
                             OUTPUT Inserted.Id
-                            VALUES (@postid, @userprofileid, @subject, @content, @createdatetime);      ";
+                            VALUES (@postid, @userprofileid, @subject, @content, @createdatetime); ";
                     cmd.Parameters.AddWithValue("@postid", comment.PostId);
                     cmd.Parameters.AddWithValue("@userprofileid", comment.UserProfileId);
                     cmd.Parameters.AddWithValue("@subject", comment.Subject);
