@@ -60,13 +60,49 @@ namespace Tabloid.Repositories
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Tag WHERE Id = @Id";
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
 
         public Tag GetById(int id)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using(var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        SELECT Tag.Id, Tag.Name FROM Tag WHERE Tag.Id = @Id";
+                    //aliases should NOT be used in join statements-
+                    //using an alias (AS) renames the column to avoid duplicate column names between tables
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    Tag tag = null;
+                    if (reader.Read())
+                    {
+                        tag = new Tag()
+                        {
+                            Id = id,
+                            Name = DbUtils.GetString(reader, "Name")
+                        };
+                    }
+                    reader.Close();
+
+                    return tag;
+                }
+            }
         }
 
         public void Update(Tag tag)
