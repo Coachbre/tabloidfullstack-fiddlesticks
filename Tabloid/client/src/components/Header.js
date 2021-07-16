@@ -8,27 +8,32 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Spinner,
 } from "reactstrap";
 import { logout } from "../modules/authManager";
 import { getCurrentUserType } from "../modules/userManager";
+
 export default function Header({ isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  // const userIsAdmin = () => {
-  //   // if (isLoggedIn === null) {
-  //   //   return <Spinner className="app-spinner dark" />;
-  //   // } else {
-  //   getCurrentUserType().then((userType) => {
-  //     if ((userType.name = "Admin")) {
-  //       setIsAdmin(true);
-  //     }
-  //   });
-  //   // }
-  // };
-  // useEffect(() => {
-  //   userIsAdmin();
-  // }, []);
+
+  const userIsAdmin = () => {
+    getCurrentUserType().then((userType) => {
+      if (userType.name === "Admin") {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      userIsAdmin();
+    }
+  }, [isLoggedIn]);
+
   return (
     <div>
       <Navbar color="light" light expand="md">
@@ -66,11 +71,15 @@ export default function Header({ isLoggedIn }) {
                     Categories
                   </NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/users">
-                    User Profiles
-                  </NavLink>
-                </NavItem>
+                {isAdmin && (
+                  <>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/users">
+                        User Profiles
+                      </NavLink>
+                    </NavItem>
+                  </>
+                )}
                 <NavItem>
                   <a
                     aria-current="page"
