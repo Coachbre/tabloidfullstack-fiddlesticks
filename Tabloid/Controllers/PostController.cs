@@ -16,6 +16,7 @@ namespace Tabloid.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
+   
         private readonly IPostRepository _postRepository;
         private readonly IUserProfileRepository _userProfileRepository;
 
@@ -68,11 +69,13 @@ namespace Tabloid.Controllers
         }
 
         // Adding a new post
-        [HttpPost("AddPost")]
+        [HttpPost]
         public IActionResult Post(Post post)
         {
             var currentUserProfile = GetCurrentUserProfile();
             post.UserProfileId = currentUserProfile.Id;
+            post.CreateDateTime = DateTime.Now;
+            post.PublishDateTime = DateTime.Now;
             _postRepository.AddPost(post);
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }

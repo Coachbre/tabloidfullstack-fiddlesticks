@@ -11,75 +11,107 @@ import {
 import { addPost, getAllPosts } from "../modules/postManager";
 import { getAllCategories } from "../modules/categoryManager";
 
-const PostForm = () => {
+// const PostForm = () => {
 
-    const [post, setPost] = useState({
-        title: "",
-        content: "",
-        imageLocation: "",
-        createDateTime: "",
-        publishDateTime: null,
-        categoryId: 0
-    });
+//     const [post, setPost] = useState({
+//         title: "",
+//         content: "",
+//         imageLocation: "",
+//         createDateTime: "",
+//         publishDateTime: null,
+//         categoryId: 0
+//     });
 
 
+
+//     useEffect(() => {
+//         getAllPosts()
+//             .then()
+//     }, []);
+
+//     const handleInputChange = (event) => {
+//         const newPost = { ...post };
+
+//         newPost[event.target.id] = event.target.value
+//         setPost(newPost);
+//     };
+
+//     const handleSave = () => {
+//         addPost({
+//             title: post.title,
+//             content: post.content,
+//             imageLocation: post.imageLocation,
+//             createDateTime: new Date(),
+//             publishDateTime: post.publishDateTime,
+//             categoryId: post.categoryId,
+//         });
+//     };
+
+    const PostForm = () => {
+
+        const emptyPost = {
+            title: "",
+            content: "",
+            imageLocation: "",
+            categoryId: 0
+        };
+
+        const [post, setPost] = useState(emptyPost);
+
+        const [category, setCategory] = useState([]);
+
+        const history = useHistory();
+
+        const handleInputChange = (evt) => {
+
+            const value = evt.target.value;
+            const key = evt.target.id;
+
+            const postCopy = { ...post }
+           
+            postCopy[key] = value;
+
+            setPost(postCopy)
+        };
+
+        const getCategories = () => {
+            return getAllCategories()
+            .then(categoriesFromAPI => {
+                setCategory(categoriesFromAPI)
+            })
+        }   
+
+        const handleSave = (event) => {
+            event.preventDefault();
+
+            if (post.title === '' || post.content === '' || post.categoryId === 0 )
+            {
+            window.alert('title, content, and category are required fields')
+            setPost({
+                title: '',
+                content: '',
+                imageLocation: '',
+                categoryId: 0
+            })
+            return history.push(`/post/add`);
+            }
+            else 
+            {
+                       addPost(post).then((p) => {
+                history.push('/post');
+            });
+        }
+    };
 
     useEffect(() => {
-        getAllPosts()
-            .then()
-    }, []);
-
-    const handleInputChange = (event) => {
-        const newPost = { ...post };
-
-        newPost[event.target.id] = event.target.value
-        setPost(newPost);
-    };
-
-    const handleSave = () => {
-        addPost({
-            title: post.title,
-            content: post.content,
-            imageLocation: post.imageLocation,
-            createDateTime: new Date(),
-            publishDateTime: post.publishDateTime,
-            categoryId: post.categoryId,
-        });
-    };
-
-    // const PostForm = () => {
-
-    //     const emptyPost = {
-    //         title: "",
-    //         content: "",
-    //         imageLocation: "",
-    //         createDateTime: "",
-    //         publishDateTime: "",
-    //         isApproved: false,
-    //         categoryId: 0
-    //     };
-
-    //     const [post, setPost] = useState(emptyPost);
-
-    //     const history = useHistory();
-
-    //     const handleInputChange = (evt) => {
-    //         const newPost = { ...newPost }
-    //         let selectedValue = evt.target.value
-    //         newPost[evt.target.id] = selectedValue
-    //         setPost(newPost)
-    //     };
-
-    //     const handleSave = (event) => {
-    //         event.preventDefault();
-    //         addPost(post)
-    //             .then(() =>  history.push("/post"));       
-    //     };
+        getCategories();
+    }, []) 
 
     return (
         <Card className="col-sm-12 col-lg-6">
             <CardBody>
                 <Form>
+                <h2>New Post</h2>
                     <FormGroup>
                         <Label for="title">Title</Label>
                         <Input
@@ -90,7 +122,7 @@ const PostForm = () => {
                     </FormGroup>
 
                     <FormGroup>
-                        <Label for="imageLocation">Image URL</Label>
+                        <Label for="imageLocation">Header Image URL</Label>
                         <Input type="text"
                             id="imageLocation"
                             value={post.imageLocation}
@@ -111,15 +143,6 @@ const PostForm = () => {
                     </FormGroup>
 
                     <FormGroup>
-                        <Label for="publishDateTime">Publication Date</Label>
-                        <Input type="text"
-                            id="publishDateTime"
-                            value={post.publishDateTime}
-                            onChange={handleInputChange}
-                        />
-                    </FormGroup>
-
-                    {/* <FormGroup>
                         <Input
                             type="select"
                             value={post.categoryId}
@@ -128,18 +151,17 @@ const PostForm = () => {
                             onChange={handleInputChange}
                         >
                             <option value="0">Select a Category</option>
-                            {categories.map((c) => (
+                            {category.map((c) => (
                                 <option key={c.id} value={c.id}>
                                     {c.name}
                                 </option>
                             ))}
                         </Input>
-                    </FormGroup> */}
+                    </FormGroup>
 
                 </Form>
-                <Button className="btn btn-primary" onClick={handleSave}>
-                        Save Post                 
-                </Button>
+                <Button className="btn btn-primary" onClick={handleSave}>Save Post </Button>
+                <Button className="btn btn-primary" onClick={() => history.push('/post')}>Cancel</Button>
 
             </CardBody>
         </Card>

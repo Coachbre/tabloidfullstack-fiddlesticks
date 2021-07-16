@@ -49,14 +49,14 @@ export const getPostById = (id) => {
 
 export const addPost = (post) => {
   return getToken().then((token) => {
-    return fetch(`${baseUrl}/addPost`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(post)
-    })
+
+      return fetch(`${baseUrl}/addPost`, {
+          method: "POST",
+          headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(post)
+      })
   });
 };
-
