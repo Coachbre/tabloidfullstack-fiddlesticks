@@ -1,51 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import {
-    Form,
-    FormGroup,
-    Card,
-    CardBody,
-    Label,
-    Input, Button
-} from 'reactstrap';
-import { addPost, getAllPosts } from "../modules/postManager";
+import { useHistory } from "react-router-dom";
+import { Form, FormGroup, Card, CardBody, Label, Input, Button } from 'reactstrap';
+import { addPost } from "../modules/postManager";
 import { getAllCategories } from "../modules/categoryManager";
-
-// const PostForm = () => {
-
-//     const [post, setPost] = useState({
-//         title: "",
-//         content: "",
-//         imageLocation: "",
-//         createDateTime: "",
-//         publishDateTime: null,
-//         categoryId: 0
-//     });
-
-
-
-//     useEffect(() => {
-//         getAllPosts()
-//             .then()
-//     }, []);
-
-//     const handleInputChange = (event) => {
-//         const newPost = { ...post };
-
-//         newPost[event.target.id] = event.target.value
-//         setPost(newPost);
-//     };
-
-//     const handleSave = () => {
-//         addPost({
-//             title: post.title,
-//             content: post.content,
-//             imageLocation: post.imageLocation,
-//             createDateTime: new Date(),
-//             publishDateTime: post.publishDateTime,
-//             categoryId: post.categoryId,
-//         });
-//     };
 
     const PostForm = () => {
 

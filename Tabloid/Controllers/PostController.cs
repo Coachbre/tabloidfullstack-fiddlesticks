@@ -70,14 +70,14 @@ namespace Tabloid.Controllers
 
         // Adding a new post
         [HttpPost]
-        public IActionResult Post(Post post)
+        public IActionResult CreatePost(Post post)
         {
             var currentUserProfile = GetCurrentUserProfile();
             post.UserProfileId = currentUserProfile.Id;
             post.CreateDateTime = DateTime.Now;
             post.PublishDateTime = DateTime.Now;
-            _postRepository.AddPost(post);
-            return CreatedAtAction("Get", new { id = post.Id }, post);
+            _postRepository.Add(post);
+            return CreatedAtAction(nameof(Get), new { id = post.Id }, post);
         }
 
         //// Editting a post
