@@ -30,9 +30,18 @@ const UserList = () => {
         <Table>
           <thead>
             <tr>
-              <th>FullName</th>
-              <th>Display Name</th>
-              <th>User Type</th>
+              <th>
+                <h5>Name</h5>
+              </th>
+              <th>
+                <h5>Display Name</h5>
+              </th>
+              <th>
+                <h5>User Type</h5>
+              </th>
+              <th></th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>

@@ -11,5 +11,7 @@ namespace Tabloid.Repositories
         UserProfile GetByUserId(int id);
 
         List<UserProfile> GetAll();
+
+        void Update(UserProfile userProfile);
     }
 }

@@ -20,14 +20,14 @@ export default function Header({ isLoggedIn }) {
     // if (isLoggedIn === null) {
     //   return <Spinner className="app-spinner dark" />;
     // } else {
-    var typeOfUser = getCurrentUserType();
+    const typeOfUser = getCurrentUserType();
     console.log("UserType", typeOfUser);
     // }
   };
-
-  useEffect(() => {
-    userIsAdmin();
-  }, []);
+  userIsAdmin();
+  // useEffect(() => {
+  //   userIsAdmin();
+  // }, []);
 
   return (
     <div>

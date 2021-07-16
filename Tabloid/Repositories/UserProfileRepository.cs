@@ -129,6 +129,41 @@ namespace Tabloid.Repositories
             }
         }
 
+        public void Update(UserProfile userProfile)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE UserProfile 
+                                        
+                                        SET  FirebaseUserId = @FirebaseUserId,
+                                             FirstName = @FirstName, 
+                                             LastName = @LastName, 
+                                             DisplayName = @DisplayName, 
+                                             Email = @Email, 
+                                             CreateDateTime = @CreateDateTime, 
+                                             ImageLocation = @ImageLocation, 
+                                             UserTypeId = @UserTypeId
+                                        WHERE Id =@ID";
+
+                    DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseUserId);
+                    DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
+                    DbUtils.AddParameter(cmd, "@DisplayName", userProfile.DisplayName);
+                    DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
+                    DbUtils.AddParameter(cmd, "@CreateDateTime", userProfile.CreateDateTime);
+                    DbUtils.AddParameter(cmd, "@ImageLocation", userProfile.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
+                    DbUtils.AddParameter(cmd, "@Id", userProfile.Id);
+
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         public List<UserProfile> GetAll()
         {
             using (var conn = Connection)

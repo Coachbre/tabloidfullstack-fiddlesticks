@@ -32,7 +32,7 @@ const UserDetails = () => {
             <CardHeader>
               <div className="row justify-content-between">
                 <h3 className="d-flex align-items-center ml-3">
-                  {user.fullName}
+                  <strong>{user.fullName}</strong>
                 </h3>
                 <img
                   className="d-flex justify-content-end"
@@ -41,13 +41,17 @@ const UserDetails = () => {
               </div>
             </CardHeader>
             <CardBody>
-              <h4 className="mb-4">DisplayName: {user.displayName}</h4>
-              <h4 className="mb-4">Email: {user.email}</h4>
+              <h4 className="mb-4">
+                DisplayName: <strong>{user.displayName}</strong>
+              </h4>
+              <h4 className="mb-4">
+                Email: <strong>{user.email}</strong>
+              </h4>
               <CardFooter>
-                <div className="row">
+                <div className="row justify-content-between">
                   <h4>Registration Date: {`${MM}/${DD}/${YYYY} `}</h4>
-                  {"   "}
-                  <h4 className="ml-5">{user.userType.name}</h4>
+
+                  <h4 className="mx-1">{user.userType.name}</h4>
                 </div>
               </CardFooter>
             </CardBody>
