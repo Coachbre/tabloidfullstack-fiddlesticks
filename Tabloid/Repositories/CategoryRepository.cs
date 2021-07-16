@@ -31,7 +31,21 @@ namespace Tabloid.Repositories
 
         public void DeleteCategory(int categoryId)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                DELETE FROM Category
+                                WHERE Id = @id
+                            ";
+                    cmd.Parameters.AddWithValue("@id", categoryId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public List<Category> GetAllCategories()
@@ -63,12 +77,56 @@ namespace Tabloid.Repositories
 
         public Category GetCategoryById(int id)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            SELECT Id, Name
+                            FROM Category
+                            WHERE Id = @id
+                        ";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        Category category = new Category
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name"))
+                        };
+
+                        reader.Close();
+                        return category;
+                    }
+                    return null;
+                }
+            }
         }
 
         public void UpdateCategory(Category category)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE Category
+                            SET Name = @name
+                            WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", category.Id);
+                    cmd.Parameters.AddWithValue("@name", category.Name);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

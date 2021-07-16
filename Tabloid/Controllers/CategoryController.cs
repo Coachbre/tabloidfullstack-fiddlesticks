@@ -27,11 +27,42 @@ namespace Tabloid.Controllers
             return Ok(_categoryRepo.GetAllCategories());
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var category = _categoryRepo.GetCategoryById(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return Ok(category);
+        }
+
+
         [HttpPost]
         public IActionResult Post(Category category)
         {
             _categoryRepo.Add(category);
             return CreatedAtAction("Get", new { id = category.Id }, category);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Category category)
+        {
+            if (id != category.Id)
+            {
+                return BadRequest();
+            }
+
+            _categoryRepo.UpdateCategory(category);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _categoryRepo.DeleteCategory(id);
+            return NoContent();
         }
     }
 }
