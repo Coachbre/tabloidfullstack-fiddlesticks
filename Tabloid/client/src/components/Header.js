@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
 import {
   Collapse,
@@ -10,11 +10,25 @@ import {
   NavLink,
 } from "reactstrap";
 import { logout } from "../modules/authManager";
-
+import { getCurrentUserType } from "../modules/userManager";
 export default function Header({ isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(null);
   const toggle = () => setIsOpen(!isOpen);
-
+  // const userIsAdmin = () => {
+  //   // if (isLoggedIn === null) {
+  //   //   return <Spinner className="app-spinner dark" />;
+  //   // } else {
+  //   getCurrentUserType().then((userType) => {
+  //     if ((userType.name = "Admin")) {
+  //       setIsAdmin(true);
+  //     }
+  //   });
+  //   // }
+  // };
+  // useEffect(() => {
+  //   userIsAdmin();
+  // }, []);
   return (
     <div>
       <Navbar color="light" light expand="md">
@@ -33,12 +47,16 @@ export default function Header({ isLoggedIn }) {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                <NavLink tag={RRNavLink} to="/post">Posts</NavLink>
+                  <NavLink tag={RRNavLink} to="/post">
+                    Posts
+                  </NavLink>
                 </NavItem>
                 <NavItem>
-                <NavLink tag={RRNavLink} className="nav-link" to="/myPost">My Posts</NavLink>      
-              </NavItem>
-              <NavItem>
+                  <NavLink tag={RRNavLink} className="nav-link" to="/myPost">
+                    My Posts
+                  </NavLink>
+                </NavItem>
+                <NavItem>
                 <NavLink tag={RRNavLink} className="nav-link" to="/post/add">New Post</NavLink>      
               </NavItem>
                 <NavItem>

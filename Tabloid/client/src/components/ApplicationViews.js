@@ -4,11 +4,12 @@ import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
 import CategoryList from "./CategoryList";
+import CategoryForm from "./CategoryForm";
 import UserList from "./UserList";
 import CommentList from "./CommentList";
 import TagList from "./TagList";
 import TagForm from "./TagForm";
-
+import CommentAddForm from "./CommentAddForm";
 import PostList from "./PostList";
 import MyPost from "./MyPost";
 import PostDetails from "./PostDetail";
@@ -24,11 +25,11 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Route>
 
         <Route exact path="/tags">
-          <TagList />
+          {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
         </Route>
 
         <Route exact path="/tags/add">
-          <TagForm />
+          {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
@@ -40,7 +41,11 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Route>
 
         <Route exact path="/category">
-          <CategoryList />
+          {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/category/add">
+          <CategoryForm />
         </Route>
 
         <Route exact path="/post">
@@ -49,7 +54,9 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route path="/comment/GetByPostId/:postId(\d+)">
           {isLoggedIn ? <CommentList /> : <Redirect to="/login" />}
         </Route>
-
+        <Route path="/comment/:postId(\d+)">
+          <CommentAddForm />
+        </Route>
         <Route exact path="/myPost">
           <MyPost /> 
         </Route>
