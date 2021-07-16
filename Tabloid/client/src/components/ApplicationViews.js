@@ -14,7 +14,8 @@ import PostList from "./PostList";
 import MyPost from "./MyPost";
 import PostDetails from "./PostDetail";
 import UserDetails from "./UserDetails";
- 
+import PostForm from "./PostForm";
+
 export default function ApplicationViews({ isLoggedIn }) {
   return (
     <main>
@@ -59,6 +60,10 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route exact path="/myPost">
           <MyPost /> 
         </Route>
+        <Route path="/post/add">
+          {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
+        </Route>
+
         <Route path="/post/:id(\d+)" exact>
           {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
