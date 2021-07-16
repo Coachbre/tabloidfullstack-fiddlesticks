@@ -11,28 +11,24 @@ import {
 } from "reactstrap";
 import { logout } from "../modules/authManager";
 import { getCurrentUserType } from "../modules/userManager";
-
 export default function Header({ isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(null);
   const toggle = () => setIsOpen(!isOpen);
-
-  const userIsAdmin = () => {
-    // if (isLoggedIn === null) {
-    //   return <Spinner className="app-spinner dark" />;
-    // } else {
-    getCurrentUserType().then((userType) => {
-      if ((userType.name = "Admin")) {
-        setIsAdmin(true);
-      }
-    });
-    // }
-  };
-
-  useEffect(() => {
-    userIsAdmin();
-  }, []);
-
+  // const userIsAdmin = () => {
+  //   // if (isLoggedIn === null) {
+  //   //   return <Spinner className="app-spinner dark" />;
+  //   // } else {
+  //   getCurrentUserType().then((userType) => {
+  //     if ((userType.name = "Admin")) {
+  //       setIsAdmin(true);
+  //     }
+  //   });
+  //   // }
+  // };
+  // useEffect(() => {
+  //   userIsAdmin();
+  // }, []);
   return (
     <div>
       <Navbar color="light" light expand="md">
