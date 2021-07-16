@@ -14,22 +14,22 @@ import { getCurrentUserType } from "../modules/userManager";
 
 export default function Header({ isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
   const userIsAdmin = () => {
     // if (isLoggedIn === null) {
     //   return <Spinner className="app-spinner dark" />;
     // } else {
-    const typeOfUser = getCurrentUserType().then(() => {
-      console.log("UserType", typeOfUser);
+    getCurrentUserType().then((userType) => {
+      console.log("UserType", userType);
     });
     // }
   };
-  userIsAdmin();
-  // useEffect(() => {
-  //   userIsAdmin();
-  // }, []);
+
+  useEffect(() => {
+    userIsAdmin();
+  }, []);
 
   return (
     <div>

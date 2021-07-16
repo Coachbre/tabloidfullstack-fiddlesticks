@@ -4,24 +4,17 @@ import { Spinner } from "reactstrap";
 import Header from "./components/Header";
 import ApplicationViews from "./components/ApplicationViews";
 import { onLoginStatusChange } from "./modules/authManager";
-import { getCurrentUserType } from "./modules/userManager";
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [isAdmin, setIsAdmin] = useState("");
+ 
 
-  const userIsAdmin = () => {
-    // if (isLoggedIn === null) {
-    //   return <Spinner className="app-spinner dark" />;
-    // } else {
-    var typeOfUser = getCurrentUserType();
-    console.log(typeOfUser);
-    // }
-  };
+  
 
   useEffect(() => {
     onLoginStatusChange(setIsLoggedIn);
-    // userIsAdmin();
+   
   }, []);
 
   if (isLoggedIn === null) {
