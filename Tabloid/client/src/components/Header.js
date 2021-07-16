@@ -14,7 +14,7 @@ import { getCurrentUserType } from "../modules/userManager";
 
 export default function Header({ isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(null);
   const toggle = () => setIsOpen(!isOpen);
 
   const userIsAdmin = () => {
@@ -22,7 +22,9 @@ export default function Header({ isLoggedIn }) {
     //   return <Spinner className="app-spinner dark" />;
     // } else {
     getCurrentUserType().then((userType) => {
-      console.log("UserType", userType);
+      if ((userType.name = "Admin")) {
+        setIsAdmin(true);
+      }
     });
     // }
   };
