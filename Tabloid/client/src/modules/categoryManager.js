@@ -21,7 +21,7 @@ export const getAllCategories = () => {
 
 export const addCategory = (category) => {
     return getToken().then((token) => {
-        return fetch(baseUrl, {
+        return fetch(`${baseUrl}/add`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -30,5 +30,6 @@ export const addCategory = (category) => {
             body: JSON.stringify(category)
         })
         // .then((res) => res.json());
+        // })
     })
 }

@@ -33,7 +33,9 @@ const CategoryForm = () => {
                 <FormGroup>
                     <Label for="name">Category Name</Label>
                     <Input id="name" type="text" name="name" placeholder="Category Name"
-                        defaultValue={category.name} onChange={event => setCategory(event.target.value)} />
+                        ///when the user typed into the box, it saved as the string, and the server doesnt know what to do with a string
+                        ///when put ({name: event.target.value}), its setting the category we typed as an object instead of a string
+                        defaultValue={category.name} onChange={event => setCategory({ name: event.target.value })} />
                 </FormGroup>
                 <Button className="btn btn-primary">Save</Button>
             </Form>

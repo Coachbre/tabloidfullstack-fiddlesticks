@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Tabloid.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
@@ -39,7 +39,7 @@ namespace Tabloid.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("add")]
         public IActionResult Post(Category category)
         {
             _categoryRepo.Add(category);
