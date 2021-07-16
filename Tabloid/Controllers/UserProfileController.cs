@@ -56,7 +56,8 @@ namespace Tabloid.Controllers
         public IActionResult GetCurrentUserType()
         {
             var currentUserProfile = GetCurrentUserProfile();
-            return Ok(currentUserProfile.UserType.Name);
+            var currUserTypeName = currentUserProfile.UserType.Name;
+            return Ok(currUserTypeName);
         }
 
         [HttpPost]
