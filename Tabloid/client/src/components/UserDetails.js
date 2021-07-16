@@ -36,7 +36,11 @@ const UserDetails = () => {
                 </h3>
                 <img
                   className="d-flex justify-content-end"
-                  src={user.imageLocation}
+                  src={`${
+                    user.imageLocation
+                      ? user.imageLocation
+                      : "https://robohash.org/d.png?size=150x150&set=set2"
+                  } `}
                 />
               </div>
             </CardHeader>
