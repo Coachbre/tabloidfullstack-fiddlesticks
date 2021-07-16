@@ -52,9 +52,9 @@ export const addTag = (tag) => {
     });
 };
 
-export const deleteTag = () => {
+export const deleteTag = (id) => {
     return getToken().then((token) => {
-        return fetch(baseUrl, {
+        return fetch(`${baseUrl}/${id}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,

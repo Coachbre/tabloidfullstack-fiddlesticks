@@ -1,26 +1,30 @@
-import React, { useState } from "react";
-import { getAllTags, deleteTag } from "../modules/tagManager";
+import React, { useEffect, useState } from "react";
+import { deleteTag, getAllTags } from "../modules/tagManager";
+// import { TagList } from "TagList";
 import { Card, CardBody, Button } from "reactstrap";
-import { useParams } from "react-router-dom";
+import { } from "react-router-dom";
 
-const Tag = ({tag}) => {
-    const [ setSingleTag] = useState([]);
-    const { TagId } = useParams();
+const Tag = ({ tag }) => {
 
-    // const getTag = () => {
-    //     getTagById(id).then(singleTag => setSingleTag(singleTag));
-    // };
+    // const [updatedList, setUpdatedList] = useState([]);
+
     const handleDelete = (evt) => {
         evt.preventDefault();
         var results = (window.confirm('Delete the item?'))
         if (results) {
-            deleteTag(TagId)
-                .then(getAllTags)
+            deleteTag(tag.id)
         };
-        // useEffect(() => {
-        //     getTagById();
-        // }, []);
     };
+
+    // const getNewTags = () => {
+    //     getAllTags().then(updatedList => setUpdatedList(updatedList));
+    // };
+
+    // useEffect(() => {
+    //     getNewTags();
+    // }, []);
+    // }
+
     return (
         <Card>
             <CardBody>
