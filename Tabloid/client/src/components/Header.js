@@ -24,6 +24,25 @@ export default function Header({ isLoggedIn }) {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
+            { /* When isLoggedIn === true, we will render the Home link */}
+            {isLoggedIn &&
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/">Home</NavLink>
+
+                <NavLink tag={RRNavLink} to="/tags">Tag Management</NavLink>
+
+                <NavLink tag={RRNavLink} to="/post">Posts</NavLink>
+              </NavItem>
+
+
+            }
+          </Nav>
+          <Nav navbar>
+            {isLoggedIn &&
+              <>
+
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/category">Category Management</NavLink>
             {/* When isLoggedIn === true, we will render the Home link */}
             {isLoggedIn && (
               <>
@@ -36,7 +55,9 @@ export default function Header({ isLoggedIn }) {
                 <NavLink tag={RRNavLink} to="/post">Posts</NavLink>
                 </NavItem>
                 <NavItem>
-                <NavLink tag={RRNavLink} className="nav-link" to="/UserPosts">My Posts</NavLink>      
+
+                <NavLink tag={RRNavLink} className="nav-link" to="/myPost">My Posts</NavLink>      
+
               </NavItem>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/tags">

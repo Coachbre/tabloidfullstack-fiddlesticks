@@ -1,21 +1,23 @@
-import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { getUserPost } from "../modules/postManager";
+import { getByUser } from "../modules/postManager";
 import Post from "./Post"
 
-const UserPostList = () => {
+const MyPost = () => {
     const [ posts, setPosts ] = useState([]);
 
-    const { id } = useParams;
+    const getPost = () => {
+        return getByUser()
+            .then(posts => setPosts(posts))
+    }
 
     useEffect(() => {
-        getUserPost(id)
-            .then(setPosts)
-    }, [id]);
+        getPost();
+    }, []);  
+
 
     return (
 <>
-            <h1>Latest Posts</h1>
+            <h1>My Posts</h1>
             <div className="container">
                 <div className="row justify-content-center">
                     {posts.map((post) => (
@@ -27,4 +29,4 @@ const UserPostList = () => {
     );
 };
 
-export default UserPostList;
+export default MyPost;
