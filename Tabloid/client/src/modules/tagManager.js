@@ -22,7 +22,14 @@ export const getAllTags = () => {
 };
 
 export const getTagById = (id) => {
-    return fetch(`${baseUrl}/${id}`).then((res) => res.json());
+    return getToken().then((token) => {
+        return fetch(`${baseUrl}/${id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((res) => res.json());
+    });
 };
 
 export const addTag = (tag) => {
@@ -45,12 +52,14 @@ export const addTag = (tag) => {
     });
 };
 
-export const deleteTag = (id) => {
-    return fetch(baseUrl, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(id),
+export const deleteTag = () => {
+    return getToken().then((token) => {
+        return fetch(baseUrl, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        })
     });
 };

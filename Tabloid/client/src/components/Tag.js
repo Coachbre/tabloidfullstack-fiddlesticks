@@ -1,15 +1,33 @@
-import React from "react";
-import { Card, CardBody } from "reactstrap";
+import React, { useState } from "react";
+import { getAllTags, deleteTag } from "../modules/tagManager";
+import { Card, CardBody, Button } from "reactstrap";
+import { useParams } from "react-router-dom";
 
-const Tag = ({ tag }) => {
+const Tag = ({tag}) => {
+    const [ setSingleTag] = useState([]);
+    const { TagId } = useParams();
+
+    // const getTag = () => {
+    //     getTagById(id).then(singleTag => setSingleTag(singleTag));
+    // };
+    const handleDelete = (evt) => {
+        evt.preventDefault();
+        var results = (window.confirm('Delete the item?'))
+        if (results) {
+            deleteTag(TagId)
+                .then(getAllTags)
+        };
+        // useEffect(() => {
+        //     getTagById();
+        // }, []);
+    };
     return (
         <Card>
             <CardBody>
                 <p>{tag.name}</p>
-                <button>Delete?</button>
+                <Button onClick={handleDelete}>Delete</Button>
             </CardBody>
-        </Card>
+        </Card >
     );
 };
-
 export default Tag;
