@@ -9,7 +9,7 @@ namespace Tabloid.Repositories
 
         List<Post> GetAllWithComments();
 
-        List<Post> GetUserPosts(int userProfileId);
+        List<Post> GetUserPosts(string FirebaseId);
 
         Post GetPostById(int PostId);
 
