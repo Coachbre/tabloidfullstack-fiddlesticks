@@ -67,15 +67,15 @@ namespace Tabloid.Controllers
             return Ok(post);
         }
 
-        //// Adding a new post
-        //[HttpPost("addPost")]
-        //public IActionResult Post(Post post)
-        //{
-        //    var currentUserProfile = GetCurrentUserProfile();
-        //    post.UserProfileId = currentUserProfile.Id;
-        //    _postRepository.Add(post);
-        //    return CreatedAtAction("Get", new { id = post.Id }, post);
-        //}
+        // Adding a new post
+        [HttpPost("AddPost")]
+        public IActionResult Post(Post post)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+            post.UserProfileId = currentUserProfile.Id;
+            _postRepository.AddPost(post);
+            return CreatedAtAction("Get", new { id = post.Id }, post);
+        }
 
         //// Editting a post
         //[HttpPut("{id}")]

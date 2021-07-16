@@ -13,7 +13,7 @@ namespace Tabloid.Repositories
 
         Post GetPostById(int PostId);
 
-        void Add(Post post);
+        void AddPost(Post post);
 
         void Update(Post post);
 

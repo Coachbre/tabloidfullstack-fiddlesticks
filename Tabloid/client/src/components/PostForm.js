@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
+import {
+    Form,
+    FormGroup,
+    Card,
+    CardBody,
+    Label,
+    Input, Button
+} from 'reactstrap';
 import { addPost, getAllPosts } from "../modules/postManager";
-import { Button } from "reactstrap";
-
+import { getAllCategories } from "../modules/categoryManager";
 
 const PostForm = () => {
 
@@ -11,8 +18,7 @@ const PostForm = () => {
         content: "",
         imageLocation: "",
         createDateTime: "",
-        publishDateTime: "",
-        isApproved: false,
+        publishDateTime: null,
         categoryId: 0
     });
 
@@ -21,7 +27,7 @@ const PostForm = () => {
     useEffect(() => {
         getAllPosts()
             .then()
-    }, []); 
+    }, []);
 
     const handleInputChange = (event) => {
         const newPost = { ...post };
@@ -37,53 +43,107 @@ const PostForm = () => {
             imageLocation: post.imageLocation,
             createDateTime: new Date(),
             publishDateTime: post.publishDateTime,
-            isApproved: true,
             categoryId: post.categoryId,
         });
     };
 
-    return (
-        <section className="post_form">
-            <h2 className="post_form_header">New Post</h2>
-            <fieldset>
-                <div className="form-group">
-                    <label htmlFor="title">Title:</label>
-                    <input
-                        type="text" id="title" onChange={handleInputChange} required autoFocus className="form-control" placeholder="Title" value={post.title} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="content">Content:</label>
-                    <textarea name="content" id="content" rows="20" onChange={ handleInputChange} required autoFocus className="form-control" placeholder="Content" value={post.content} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="imageLocation">Image Location:</label>
-                    <input
-                        type="text" id="imageLocation" onChange={ handleInputChange} required autoFocus className="form-control" placeholder="Image Location" value={post.imageLocation} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="publishDateTime">Publish Date:</label>
-                    <input
-                        type="date" id="publishDateTime" onChange={ handleInputChange} required autoFocus className="form-control" placeholder="Publish Date" value={post.publishDateTime} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="categoryId">Category: </label>
-                    <select name="categoryId" id="categoryId" className="form-control" onChange={ handleInputChange}>
-                        <option value="0">Select a category</option>
-                        {/*{categories.map(category => (
-                            <option key={category.id} value={category.id}>
-                                {category.name}
-                        </option>*/}
-                        ))
-                    </select>
-                </div>
-            </fieldset>
-            <Button color="primary" onClick={handleSave}>
-                <Link className="savePost" to={"/Posts"} style={{ color: `#FFF` }}>
-                    Save Post
-                </Link>
-            </Button>
+    // const PostForm = () => {
 
-        </section>
+    //     const emptyPost = {
+    //         title: "",
+    //         content: "",
+    //         imageLocation: "",
+    //         createDateTime: "",
+    //         publishDateTime: "",
+    //         isApproved: false,
+    //         categoryId: 0
+    //     };
+
+    //     const [post, setPost] = useState(emptyPost);
+
+    //     const history = useHistory();
+
+    //     const handleInputChange = (evt) => {
+    //         const newPost = { ...newPost }
+    //         let selectedValue = evt.target.value
+    //         newPost[evt.target.id] = selectedValue
+    //         setPost(newPost)
+    //     };
+
+    //     const handleSave = (event) => {
+    //         event.preventDefault();
+    //         addPost(post)
+    //             .then(() =>  history.push("/post"));       
+    //     };
+
+    return (
+        <Card className="col-sm-12 col-lg-6">
+            <CardBody>
+                <Form>
+                    <FormGroup>
+                        <Label for="title">Title</Label>
+                        <Input
+                            id="title"
+                            value={post.title}
+                            onChange={handleInputChange}
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="imageLocation">Image URL</Label>
+                        <Input type="text"
+                            id="imageLocation"
+                            value={post.imageLocation}
+                            onChange={handleInputChange}
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="content">Content</Label>
+                        <br />
+                        <Input
+                            type="textarea"
+                            value={post.content}
+                            rows="10"
+                            id="content"
+                            onChange={handleInputChange}
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="publishDateTime">Publication Date</Label>
+                        <Input type="text"
+                            id="publishDateTime"
+                            value={post.publishDateTime}
+                            onChange={handleInputChange}
+                        />
+                    </FormGroup>
+
+                    {/* <FormGroup>
+                        <Input
+                            type="select"
+                            value={post.categoryId}
+                            name="categoryId"
+                            id="categoryId"
+                            onChange={handleInputChange}
+                        >
+                            <option value="0">Select a Category</option>
+                            {categories.map((c) => (
+                                <option key={c.id} value={c.id}>
+                                    {c.name}
+                                </option>
+                            ))}
+                        </Input>
+                    </FormGroup> */}
+
+                </Form>
+                <Button className="btn btn-primary" onClick={handleSave}>
+                        Save Post                 
+                </Button>
+
+            </CardBody>
+        </Card>
+
     );
 };
 

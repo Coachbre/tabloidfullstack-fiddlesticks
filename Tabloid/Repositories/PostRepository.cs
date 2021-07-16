@@ -231,7 +231,7 @@ namespace Tabloid.Repositories
             }
         }
 
-        public void Add(Post post)
+        public void AddPost(Post post)
         {
             using (var conn = Connection)
             {
@@ -239,9 +239,9 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Post (Title, Content, ImageLocation, CreateDateTime, PublishDateTime, IsApproved, CategoryId, UserProfileId)
+                        INSERT INTO Post (Title, Content, ImageLocation, CreateDateTime, PublishDateTime, IsApproved, UserProfileId)
                         OUTPUT INSERTED.ID
-                        VALUES (@Title, @Content, @ImageLocation, @CreateDateTime, @PublishDateTime, @IsApproved, @CategoryId, @UserProfileId)";
+                        VALUES (@Title, @Content, @ImageLocation, @CreateDateTime, @PublishDateTime, @IsApproved,  @UserProfileId)";
 
                     DbUtils.AddParameter(cmd, "@Title", post.Title);
                     DbUtils.AddParameter(cmd, "@Content", post.Content);
@@ -249,7 +249,7 @@ namespace Tabloid.Repositories
                     DbUtils.AddParameter(cmd, "@CreateDateTime", post.CreateDateTime);
                     DbUtils.AddParameter(cmd, "@PublishDateTime", post.PublishDateTime);
                     DbUtils.AddParameter(cmd, "@IsApproved", post.IsApproved);
-                    DbUtils.AddParameter(cmd, "@CategoryId", post.CategoryId);
+                    //DbUtils.AddParameter(cmd, "@CategoryId", post.CategoryId);
                     DbUtils.AddParameter(cmd, "@UserProfileId", post.UserProfileId);
 
                     post.Id = (int)cmd.ExecuteScalar();
