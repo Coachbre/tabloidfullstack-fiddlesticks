@@ -5,12 +5,11 @@ import Register from "./Register";
 import Hello from "./Hello";
 import CategoryList from "./CategoryList";
 import CategoryForm from "./CategoryForm";
-
 import UserList from "./UserList";
 import CommentList from "./CommentList";
 import TagList from "./TagList";
 import TagForm from "./TagForm";
-
+import CommentAddForm from "./CommentAddForm";
 import PostList from "./PostList";
 import MyPost from "./MyPost";
 import PostDetails from "./PostDetail";
@@ -54,7 +53,12 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route path="/comment/GetByPostId/:postId(\d+)">
           {isLoggedIn ? <CommentList /> : <Redirect to="/login" />}
         </Route>
-
+        <Route path="/comment/:postId(\d+)">
+          <CommentAddForm />
+        </Route>
+        <Route exact path="/UserPosts">
+          {isLoggedIn ? <UserPostList /> : <Redirect to="/login" />}
+          </Route>
         <Route exact path="/myPost">
           <MyPost /> 
         </Route>

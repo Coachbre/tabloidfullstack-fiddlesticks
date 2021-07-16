@@ -1,36 +1,31 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { addComment } from '../modules/commentManager'
 
 
 const CommentAddForm = ( ) => {
-    const emptyComment = {
-      subject: '',
-      content: ''
-    };
+  const { postId } = useParams();
+  const [comment, setComment] = useState({
+      postId: postId,
+      subject: "",
+      content: ""
+  });
   
     const history = useHistory();
-    const [comment, setComment] = useState({ emptyComment });
   
     const handleInputChange = (evt) => {
-      const value = evt.target.value;
-      const key = evt.target.id;
-  
-      const NewComment = { ...comment };
-  
-      NewComment[key] = value;
-      setComment(NewComment);
+      const newComment = { ...comment }
+      let selectedValue = evt.target.value
+      newComment[evt.target.id] = selectedValue
+      setComment(newComment)
     };
   
     const handleSave = (evt) => {
       evt.preventDefault();
-  
-      addComment(comment).then((p) => {
-          // Navigate the user back to the home route
-          history.push("/");
-      });
-    };
+      addComment(comment)
+          .then(() => history.push(`/comment/GetByPostId/${postId}`));
+  };
   
     return (
       <Form>
