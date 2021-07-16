@@ -29,5 +29,15 @@ export const GetCommentByPost = (postId) => {
                 },
                 body: JSON.stringify(comment)
             })
-        });
-    };
+        })};
+
+        export const deleteComment = (commentId) => {
+          return getToken().then((token) => {
+              return fetch(`${baseUrl}/delete/${commentId}`, {
+                  method: "Delete",
+                  headers: {
+                      Authorization: `Bearer ${token}`,
+                      "Content-Type": "application/json"
+                  },
+              })
+            })}
