@@ -14,7 +14,7 @@ import PostList from "./PostList";
 import MyPost from "./MyPost";
 import PostDetails from "./PostDetail";
 import UserDetails from "./UserDetails";
-
+ 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
     <main>
@@ -56,9 +56,6 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route path="/comment/:postId(\d+)">
           <CommentAddForm />
         </Route>
-        <Route exact path="/UserPosts">
-          {isLoggedIn ? <UserPostList /> : <Redirect to="/login" />}
-          </Route>
         <Route exact path="/myPost">
           <MyPost /> 
         </Route>
