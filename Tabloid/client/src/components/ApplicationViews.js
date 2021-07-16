@@ -6,14 +6,17 @@ import Hello from "./Hello";
 import CategoryList from "./CategoryList";
 import CategoryForm from "./CategoryForm";
 
-
+import UserList from "./UserList";
+import CommentList from "./CommentList";
 import TagList from "./TagList";
+import TagForm from "./TagForm";
 
 import PostList from "./PostList";
-
+import MyPost from "./MyPost";
+import PostDetails from "./PostDetail";
+import UserDetails from "./UserDetails";
 
 export default function ApplicationViews({ isLoggedIn }) {
-
   return (
     <main>
       <Switch>
@@ -21,8 +24,12 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/tags">
-          <TagList />
+        <Route exact path="/tags">
+          {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route exact path="/tags/add">
+          {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
@@ -44,8 +51,24 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route exact path="/post">
           {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
         </Route>
+        <Route path="/comment/GetByPostId/:postId(\d+)">
+          {isLoggedIn ? <CommentList /> : <Redirect to="/login" />}
+        </Route>
 
+        <Route exact path="/myPost">
+          <MyPost /> 
+        </Route>
+        <Route path="/post/:id(\d+)" exact>
+          {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
+        </Route>
+        <Route exact path="/users">
+          {isLoggedIn ? <UserList /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/users/:id(\d+)">
+          {isLoggedIn ? <UserDetails /> : <Redirect to="/login" />}
+        </Route>
       </Switch>
     </main>
+    //EXACT PATH can be used when routes begin the same
   );
-};
+}

@@ -39,6 +39,51 @@ namespace Tabloid.Repositories
                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id
 
                         WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME()
+                        ORDER BY p.PublishDateTime Desc";
+
+                    var reader = cmd.ExecuteReader();
+
+                    var posts = new List<Post>();
+
+                    while (reader.Read())
+                    {
+                        posts.Add(NewPostFromReader(reader));
+                    }
+
+                    reader.Close();
+
+                    return posts;
+                }
+            }
+        }
+
+        public List<Post> GetAllWithComments()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT p.Id, p.Title, p.Content, 
+                              p.ImageLocation AS HeaderImage,
+                              p.CreateDateTime, p.PublishDateTime, p.IsApproved, 
+                              p.CategoryId, p.UserProfileId,
+                              c.[Name] AS CategoryName,
+                              u.FirstName, u.LastName, u.DisplayName, 
+                              u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
+                              u.UserTypeId, 
+                              ut.[Name] AS UserTypeName,
+                              cm.Content, cm.CreateDateTime, cm.Subject
+
+                         FROM Post p
+
+                              LEFT JOIN Category c ON p.CategoryId = c.id
+                              LEFT JOIN UserProfile u ON p.UserProfileId = u.id
+                              LEFT JOIN UserType ut ON u.UserTypeId = ut.id
+                              LEFT JOIN Comment cm ON cm.postId = p.id 
+
+                        WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME()
                         ORDER BY p.CreateDateTime DESC";
 
                     var reader = cmd.ExecuteReader();
@@ -56,6 +101,7 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
         private Post NewPostFromReader(SqlDataReader reader)
         {
             return new Post()
@@ -67,11 +113,11 @@ namespace Tabloid.Repositories
                 CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
                 PublishDateTime = DbUtils.GetNullableDateTime(reader, "PublishDateTime"),
                 CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
-                //Category = new Category()
-                //{
-                //    Id = reader.GetInt32(reader.GetOrdinal("CategoryId")),
-                //    Name = reader.GetString(reader.GetOrdinal("CategoryName"))
-                //},
+                Category = new Category()
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                    Name = reader.GetString(reader.GetOrdinal("CategoryName"))
+                },
                 UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
                 UserProfile = new UserProfile()
                 {
@@ -92,7 +138,7 @@ namespace Tabloid.Repositories
             };
         }
 
-        public List<Post> GetUserPosts(int userProfileId)
+        public List<Post> GetUserPosts(string FirebaseUserId)
         {
             using (var conn = Connection)
             {
@@ -100,19 +146,24 @@ namespace Tabloid.Repositories
 
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT p.Id AS PostId, p.Title, p.CreateDateTime, p.PublishDateTime, p.IsApproved,
-                                               c.Id AS CategoryId, c.[Name],
-                                               up.Id AS UserProfileId, up.FirstName, up.LastName
+                    cmd.CommandText = @"
+                       SELECT p.Id, p.Title, p.Content, 
+                              p.ImageLocation AS HeaderImage,
+                              p.CreateDateTime, p.PublishDateTime, p.IsApproved, 
+                              p.CategoryId, p.UserProfileId,
+                              c.[Name] AS CategoryName,
+                              u.FirstName, u.LastName, u.DisplayName, 
+                              u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
+                              u.UserTypeId, 
+                              ut.[Name] AS UserTypeName
+                         FROM Post p
+                              LEFT JOIN Category c ON p.CategoryId = c.id
+                              LEFT JOIN UserProfile u ON p.UserProfileId = u.id
+                              LEFT JOIN UserType ut ON u.UserTypeId = ut.id
+                        WHERE PublishDateTime < SYSDATETIME() AND u.FirebaseUserId = @FirebaseUserId
+                        ORDER BY PublishDateTime DESC";
 
-                                       FROM Post p
-
-                                       LEFT JOIN Category c ON c.Id = p.CategoryId
-                                       LEFT JOIN UserProfile up ON up.Id = p.UserProfileId
-
-                                       WHERE up.id = @userProfileId
-                                       ORDER BY p.CreateDateTime";
-
-                    cmd.Parameters.AddWithValue("@userProfileId", userProfileId);
+                    DbUtils.AddParameter(cmd, "@FirebaseUserId", FirebaseUserId);
 
                     var reader = cmd.ExecuteReader();
 
@@ -120,22 +171,7 @@ namespace Tabloid.Repositories
 
                     while (reader.Read())
                     {
-                        posts.Add(new Post()
-                        {
-                            Id = DbUtils.GetInt(reader, "PostId"),
-                            Title = DbUtils.GetString(reader, "Title"),
-                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
-                            PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
-                            IsApproved = reader.GetBoolean(reader.GetOrdinal("IsApproved")),
-                            CategoryId = DbUtils.GetInt(reader, "CategoryId"),
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            UserProfile = new UserProfile()
-                            {
-                                Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                FirstName = DbUtils.GetString(reader, "FirstName"),
-                                LastName = DbUtils.GetString(reader, "LastName")
-                            }
-                        });
+                        posts.Add(NewPostFromReader(reader));
                     }
 
                     reader.Close();
@@ -145,7 +181,7 @@ namespace Tabloid.Repositories
             }
         }
 
-        public Post GetPostById(int PostId)
+        public Post GetPostById(int id)
         {
             using (var conn = Connection)
             {
@@ -165,7 +201,7 @@ namespace Tabloid.Repositories
 
                                        WHERE p.Id = @id";
 
-                    cmd.Parameters.AddWithValue("@id", PostId);
+                    cmd.Parameters.AddWithValue("@id", id);
                     var reader = cmd.ExecuteReader();
 
                     if (reader.Read())

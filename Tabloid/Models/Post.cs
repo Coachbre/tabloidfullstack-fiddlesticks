@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Tabloid.Models
 {
@@ -17,5 +14,6 @@ namespace Tabloid.Models
         public int CategoryId { get; set; }
         public int UserProfileId { get; set; }
         public UserProfile UserProfile { get; set; }
+        public Category Category { get; set; }
     }
 }
