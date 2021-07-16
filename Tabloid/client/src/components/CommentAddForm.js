@@ -31,13 +31,13 @@ const CommentAddForm = ( ) => {
       <Form>
         <FormGroup>
           <Label for="subject">Subject:</Label>
-          <Input type="text" name="subject" id="subject" placeholder="comment subject" required
+          <Input type="text" name="subject" id="subject" placeholder="subject line" required
             value={comment.subject}
             onChange={handleInputChange} />
         </FormGroup>
         <FormGroup>
-          <Label for="content">URL</Label>
-          <Input type="textarea" name="content" id="content" placeholder="comment content" required 
+          <Label for="content">Content:</Label>
+          <Input type="textarea" name="content" id="content" placeholder="content" required 
             value={comment.content}
             onChange={handleInputChange} />
         </FormGroup>
