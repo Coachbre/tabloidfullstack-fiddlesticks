@@ -16,6 +16,7 @@ namespace Tabloid.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
+   
         private readonly IPostRepository _postRepository;
         private readonly IUserProfileRepository _userProfileRepository;
 
@@ -67,15 +68,17 @@ namespace Tabloid.Controllers
             return Ok(post);
         }
 
-        //// Adding a new post
-        //[HttpPost("addPost")]
-        //public IActionResult Post(Post post)
-        //{
-        //    var currentUserProfile = GetCurrentUserProfile();
-        //    post.UserProfileId = currentUserProfile.Id;
-        //    _postRepository.Add(post);
-        //    return CreatedAtAction("Get", new { id = post.Id }, post);
-        //}
+        // Adding a new post
+        [HttpPost]
+        public IActionResult CreatePost(Post post)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+            post.UserProfileId = currentUserProfile.Id;
+            post.CreateDateTime = DateTime.Now;
+            post.PublishDateTime = DateTime.Now;
+            _postRepository.Add(post);
+            return CreatedAtAction(nameof(Get), new { id = post.Id }, post);
+        }
 
         //// Editting a post
         //[HttpPut("{id}")]
@@ -90,13 +93,13 @@ namespace Tabloid.Controllers
         //    return NoContent();
         //}
 
-        //// Delete an unwated post
-        //[HttpDelete("delete/{id}")]
-        //public IActionResult Delete(int id)
-        //{
-        //    _postRepository.Delete(id);
-        //    return NoContent();
-        //}
+        // Delete an unwated post
+        [HttpDelete("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            _postRepository.Delete(id);
+            return NoContent();
+        }
 
         // Get the current user
         private UserProfile GetCurrentUserProfile()
