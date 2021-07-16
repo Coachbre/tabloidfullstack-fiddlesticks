@@ -28,14 +28,6 @@ export const GetCommentByPost = (postId) => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(comment)
-            }).then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else if (res.status === 401) {
-                    throw new Error("Please login to post comments");
-                } else {
-                    throw new Error("An unknown error occurred while trying to add a comment.");
-                }
-            });
+            })
         });
     };

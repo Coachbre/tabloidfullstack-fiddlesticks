@@ -83,16 +83,18 @@ namespace Tabloid.Repositories
 
                 {
                     cmd.CommandText = @"
-                            INSERT INTO Comment (postid, userprofileid, subject, content, createdatetime)
+                            INSERT INTO Comment (PostId, UserProfileId, Subject, Content, CreateDateTime)
                             OUTPUT Inserted.Id
-                            VALUES (@postid, @userprofileid, @subject, @content, @createdatetime); ";
-                    cmd.Parameters.AddWithValue("@postid", comment.PostId);
-                    cmd.Parameters.AddWithValue("@userprofileid", comment.UserProfileId);
+                            VALUES (@postId, @userProfileId, @subject, @content, @createDateTime); ";
+                    cmd.Parameters.AddWithValue("@postId", comment.PostId);
+                    cmd.Parameters.AddWithValue("@userProfileId", comment.UserProfileId);
                     cmd.Parameters.AddWithValue("@subject", comment.Subject);
                     cmd.Parameters.AddWithValue("@content", comment.Content);
-                    cmd.Parameters.AddWithValue("@createdatetime", (comment.CreateDateTime));
+                    cmd.Parameters.AddWithValue("@createDateTime", DateTime.Now);
 
-                    comment.Id = (int)cmd.ExecuteScalar();
+                    int id = (int)cmd.ExecuteScalar();
+
+                    comment.Id = id;
                 }
 
             }

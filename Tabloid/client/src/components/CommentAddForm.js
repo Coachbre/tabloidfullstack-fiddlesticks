@@ -5,9 +5,9 @@ import { addComment } from '../modules/commentManager'
 
 
 const CommentAddForm = ( ) => {
+  const { postId } = useParams();
   const [comment, setComment] = useState({
       postId: postId,
-      userProfileId: userProfileId,
       subject: "",
       content: ""
   });
@@ -24,7 +24,7 @@ const CommentAddForm = ( ) => {
     const handleSave = (evt) => {
       evt.preventDefault();
       addComment(comment)
-          .then(() => history.push(`/comment/${postId}`));
+          .then(() => history.push(`/comment/GetByPostId/${postId}`));
   };
   
     return (
