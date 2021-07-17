@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, Button } from "reactstrap";
+import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 
 const User = ({ user }) => {

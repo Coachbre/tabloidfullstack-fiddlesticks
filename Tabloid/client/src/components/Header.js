@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
 import {
   Collapse,
@@ -8,31 +8,12 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Spinner,
 } from "reactstrap";
 import { logout } from "../modules/authManager";
-import { getCurrentUserType } from "../modules/userManager";
 
-export default function Header({ isLoggedIn }) {
+export default function Header({ isLoggedIn, isAdmin }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-
-  const userIsAdmin = () => {
-    getCurrentUserType().then((userType) => {
-      if (userType.name === "Admin") {
-        setIsAdmin(true);
-      } else {
-        setIsAdmin(false);
-      }
-    });
-  };
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      userIsAdmin();
-    }
-  }, [isLoggedIn]);
 
   return (
     <div>
@@ -46,11 +27,11 @@ export default function Header({ isLoggedIn }) {
             {/* When isLoggedIn === true, we will render the Home link */}
             {isLoggedIn && (
               <>
-                <NavItem>
+                {/* <NavItem>
                   <NavLink tag={RRNavLink} to="/">
                     Home
                   </NavLink>
-                </NavItem>
+                </NavItem> */}
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/post">
                     Posts
@@ -62,22 +43,22 @@ export default function Header({ isLoggedIn }) {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                <NavLink tag={RRNavLink} className="nav-link" to="/post/add">
-                  New Post
-                </NavLink>      
-              </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/tags">
-                    Tag Management
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/category">
-                    Categories
+                  <NavLink tag={RRNavLink} className="nav-link" to="/post/add">
+                    New Post
                   </NavLink>
                 </NavItem>
                 {isAdmin && (
                   <>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/tags">
+                        Tag Management
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/category">
+                        Categories
+                      </NavLink>
+                    </NavItem>
                     <NavItem>
                       <NavLink tag={RRNavLink} to="/users">
                         User Profiles

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardBody, CardHeader, CardFooter } from "reactstrap";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { getUserById } from "../modules/userManager";
 
 const UserDetails = () => {
   const [user, setUser] = useState();
   const { id } = useParams();
-  const history = useHistory();
 
   useEffect(() => {
     getUserById(id).then(setUser);
