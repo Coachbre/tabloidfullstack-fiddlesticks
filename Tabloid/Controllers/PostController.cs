@@ -94,10 +94,10 @@ namespace Tabloid.Controllers
         //}
 
         // Delete an unwated post
-        [HttpDelete("delete/{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("delete/{postId}")]
+        public IActionResult Delete(int postId)
         {
-            _postRepository.Delete(id);
+            _postRepository.Delete(postId);
             return NoContent();
         }
 

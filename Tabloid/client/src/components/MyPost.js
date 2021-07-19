@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { getByUser } from "../modules/postManager";
 import Post from "./Post"
 
+
 const MyPost = () => {
+
     const [ posts, setPosts ] = useState([]);
 
     const getPost = () => {
         return getByUser()
             .then(posts => setPosts(posts))
     }
+
 
     useEffect(() => {
         getPost();
