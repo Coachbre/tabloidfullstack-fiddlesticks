@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { Link } from "react-router-dom";
 import { getAllUsers } from "../modules/userManager";
 import { Button, Table } from "reactstrap";
 import User from "./User";
@@ -30,9 +30,28 @@ const UserList = () => {
         <Table>
           <thead>
             <tr>
-              <th>FullName</th>
-              <th>Display Name</th>
-              <th>User Type</th>
+              <th>
+                <h5>Name</h5>
+              </th>
+              <th>
+                <h5>Display Name</h5>
+              </th>
+              <th>
+                <h5>User Type</h5>
+              </th>
+              <th></th>
+              <th></th>
+              <th>
+                <Button
+                  color="danger"
+                  tag={Link}
+                  to={`/users/deactivated`}
+                  //   type="submit"
+                  //   onClick={handleClick}
+                >
+                  Deactivated Users
+                </Button>
+              </th>
             </tr>
           </thead>
           <tbody>

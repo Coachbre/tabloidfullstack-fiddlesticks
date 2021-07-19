@@ -37,7 +37,11 @@ namespace Tabloid.Models
 
         [Required]
         public int UserTypeId { get; set; }
+        [Required]
+        public bool IsActive { get; set; }
         public UserType UserType { get; set; }
+
+
 
         public string FullName
         {

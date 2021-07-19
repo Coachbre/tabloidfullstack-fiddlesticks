@@ -15,8 +15,10 @@ import MyPost from "./MyPost";
 import PostDetails from "./PostDetail";
 import UserDetails from "./UserDetails";
 import PostForm from "./PostForm";
+import DeactivatedUsers from "./DeactivatedUsers"
 
-export default function ApplicationViews({ isLoggedIn }) {
+
+export default function ApplicationViews({ isLoggedIn, isAdmin }) {
   return (
     <main>
       <Switch>
@@ -25,11 +27,21 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Route>
 
         <Route exact path="/tags">
-          {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
+          {/* {isLoggedIn ? <TagList /> : <Redirect to="/login" />} */}
+          {isLoggedIn && isAdmin ? (
+            <TagList />
+          ) : (
+            [isLoggedIn && !isAdmin ? <Hello /> : <Redirect to="/login" />]
+          )}
         </Route>
 
         <Route exact path="/tags/add">
-          {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
+          {/* {isLoggedIn ? <TagForm /> : <Redirect to="/login" />} */}
+          {isLoggedIn && isAdmin ? (
+            <TagForm />
+          ) : (
+            [isLoggedIn && !isAdmin ? <Hello /> : <Redirect to="/login" />]
+          )}
         </Route>
 
         <Route path="/login">
@@ -41,11 +53,21 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Route>
 
         <Route exact path="/category">
-          {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
+          {/* {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />} */}
+          {isLoggedIn && isAdmin ? (
+            <CategoryList />
+          ) : (
+            [isLoggedIn && !isAdmin ? <Hello /> : <Redirect to="/login" />]
+          )}
         </Route>
 
         <Route path="/category/add">
-          <CategoryForm />
+          {/* <CategoryForm /> */}
+          {isLoggedIn && isAdmin ? (
+            <CategoryForm />
+          ) : (
+            [isLoggedIn && !isAdmin ? <Hello /> : <Redirect to="/login" />]
+          )}
         </Route>
 
         <Route exact path="/post">
@@ -68,10 +90,25 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
         <Route exact path="/users">
-          {isLoggedIn ? <UserList /> : <Redirect to="/login" />}
+          {isLoggedIn && isAdmin ? (
+            <UserList />
+          ) : (
+            [isLoggedIn && !isAdmin ? <Hello /> : <Redirect to="/login" />]
+          )}
         </Route>
         <Route path="/users/:id(\d+)">
-          {isLoggedIn ? <UserDetails /> : <Redirect to="/login" />}
+          {isLoggedIn && isAdmin ? (
+            <UserDetails />
+          ) : (
+            [isLoggedIn && !isAdmin ? <Hello /> : <Redirect to="/login" />]
+          )}
+        </Route>
+        <Route path="/users/deactivated">
+          {isLoggedIn && isAdmin ? (
+            <DeactivatedUsers />
+          ) : (
+            [isLoggedIn && !isAdmin ? <Hello /> : <Redirect to="/login" />]
+          )}
         </Route>
       </Switch>
     </main>

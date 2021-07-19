@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tabloid.Models;
 using Tabloid.Utils;
+using Microsoft.Data.SqlClient;
 
 namespace Tabloid.Repositories
 {
@@ -111,10 +112,10 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"INSERT INTO UserProfile (FirebaseUserId, FirstName, LastName, DisplayName, 
-                                                                 Email, CreateDateTime, ImageLocation, UserTypeId)
+                                                                 Email, CreateDateTime, ImageLocation, UserTypeId, IsActive)
                                         OUTPUT INSERTED.ID
                                         VALUES (@FirebaseUserId, @FirstName, @LastName, @DisplayName, 
-                                                @Email, @CreateDateTime, @ImageLocation, @UserTypeId)";
+                                                @Email, @CreateDateTime, @ImageLocation, @UserTypeId, @IsActive)";
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseUserId);
                     DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
@@ -123,8 +124,52 @@ namespace Tabloid.Repositories
                     DbUtils.AddParameter(cmd, "@CreateDateTime", userProfile.CreateDateTime);
                     DbUtils.AddParameter(cmd, "@ImageLocation", userProfile.ImageLocation);
                     DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
+                    DbUtils.AddParameter(cmd, "@IsActive", userProfile.IsActive);
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Update(UserProfile userProfile)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE UserProfile u
+                                        
+                                        SET  u.FirebaseUserId = @FirebaseUserId,
+                                             u.FirstName = @FirstName, 
+                                             u.LastName = @LastName, 
+                                             u.DisplayName = @DisplayName, 
+                                             u.Email = @Email, 
+                                             u.CreateDateTime = @CreateDateTime, 
+                                             u.ImageLocation = @ImageLocation, 
+                                             u.UserTypeId = @UserTypeId,
+                                             u.IsActive = @IsActive
+                                             //ut.Id = @UserTypeId,
+                                         //    ut.Name = @Name
+                                         //Join UserType ut ON u.UserTypeId = ut.Id
+                                        WHERE u.Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseUserId);
+                    DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
+                    DbUtils.AddParameter(cmd, "@DisplayName", userProfile.DisplayName);
+                    DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
+                    DbUtils.AddParameter(cmd, "@CreateDateTime", userProfile.CreateDateTime);
+                    DbUtils.AddParameter(cmd, "@ImageLocation", userProfile.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
+                    DbUtils.AddParameter(cmd, "@IsActive", userProfile.IsActive);
+                    //DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
+                    //DbUtils.AddParameter(cmd, "@Name", userProfile.UserType.Name);
+
+                    DbUtils.AddParameter(cmd, "@Id", userProfile.Id);
+
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -139,9 +184,10 @@ namespace Tabloid.Repositories
                     cmd.CommandText = @"
                           SELECT up.Id as UserId, up.FirebaseUserId, 
                                 up.FirstName, up.LastName, up.DisplayName, up.Email, 
-                                up.CreateDateTime, up.ImageLocation,up.UserTypeId, ut.Id as UserTypeId, ut.Name
+                                up.CreateDateTime, up.ImageLocation,up.UserTypeId,   ut.Id as UserTypeId, ut.Name
                             FROM UserProfile up 
                             JOIN UserType ut ON up.UserTypeId = ut.id
+                           
                         ORDER BY up.DisplayName
                     ";
 
@@ -160,7 +206,62 @@ namespace Tabloid.Repositories
                             Email = DbUtils.GetString(reader, "Email"),
                             CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                             ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                            UserTypeId =DbUtils.GetInt(reader, "UserTypeId"),
+                            //IsActive =  DbUtils.GetBoolean(reader, "IsActive"),
                             
+
+                            UserType = new UserType()
+                            {
+                                Id = DbUtils.GetInt(reader, "UserTypeId"),
+                                Name = DbUtils.GetString(reader, "Name")
+                            }
+                        });
+                    }
+
+                    reader.Close();
+
+                    return users;
+                }
+
+            }
+        }
+        public List<UserProfile> GetAllDeactivated()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                          SELECT up.Id as UserId, up.FirebaseUserId, 
+                                up.FirstName, up.LastName, up.DisplayName, up.Email, 
+                                up.CreateDateTime, up.ImageLocation,up.UserTypeId, up.isActive,  ut.Id as UserTypeId, ut.Name
+                            FROM UserProfile up 
+                            JOIN UserType ut ON up.UserTypeId = ut.id
+                        ORDER BY up.DisplayName
+                            Where up.IsActive = false  
+Where
+                    ";
+
+                    var reader = cmd.ExecuteReader();
+
+                    var users = new List<UserProfile>();
+                    while (reader.Read())
+                    {
+                        users.Add(new UserProfile()
+                        {
+                            Id = DbUtils.GetInt(reader, "UserId"),
+                            FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
+                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                            Email = DbUtils.GetString(reader, "Email"),
+                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
+                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                            UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                            IsActive = DbUtils.GetBoolean(reader, "IsActive"),
+
+
                             UserType = new UserType()
                             {
                                 Id = DbUtils.GetInt(reader, "UserTypeId"),

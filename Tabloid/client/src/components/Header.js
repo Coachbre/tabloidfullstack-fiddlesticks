@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
 import {
   Collapse,
@@ -10,25 +10,11 @@ import {
   NavLink,
 } from "reactstrap";
 import { logout } from "../modules/authManager";
-import { getCurrentUserType } from "../modules/userManager";
-export default function Header({ isLoggedIn }) {
+
+export default function Header({ isLoggedIn, isAdmin }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(null);
   const toggle = () => setIsOpen(!isOpen);
-  // const userIsAdmin = () => {
-  //   // if (isLoggedIn === null) {
-  //   //   return <Spinner className="app-spinner dark" />;
-  //   // } else {
-  //   getCurrentUserType().then((userType) => {
-  //     if ((userType.name = "Admin")) {
-  //       setIsAdmin(true);
-  //     }
-  //   });
-  //   // }
-  // };
-  // useEffect(() => {
-  //   userIsAdmin();
-  // }, []);
+
   return (
     <div>
       <Navbar color="light" light expand="md">
@@ -41,11 +27,11 @@ export default function Header({ isLoggedIn }) {
             {/* When isLoggedIn === true, we will render the Home link */}
             {isLoggedIn && (
               <>
-                <NavItem>
+                {/* <NavItem>
                   <NavLink tag={RRNavLink} to="/">
                     Home
                   </NavLink>
-                </NavItem>
+                </NavItem> */}
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/post">
                     Posts
@@ -61,21 +47,25 @@ export default function Header({ isLoggedIn }) {
                     New Post
                   </NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/tags">
-                    Tag Management
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/category">
-                    Categories
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/users">
-                    User Profiles
-                  </NavLink>
-                </NavItem>
+                {isAdmin && (
+                  <>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/tags">
+                        Tag Management
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/category">
+                        Categories
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/users">
+                        User Profiles
+                      </NavLink>
+                    </NavItem>
+                  </>
+                )}
                 <NavItem>
                   <a
                     aria-current="page"
