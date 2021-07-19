@@ -33,3 +33,26 @@ export const addCategory = (category) => {
         // })
     })
 }
+
+export const getCategoryById = (id) => {
+    return getToken().then((token) => {
+        return fetch(`${baseUrl}/${id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((res) => res.json())
+    })
+}
+
+export const deleteCategory = (id) => {
+    return getToken().then((token) => {
+        return fetch(`${baseUrl}/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+        })
+    })
+}
+
