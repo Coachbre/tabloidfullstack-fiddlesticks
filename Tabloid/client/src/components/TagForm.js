@@ -27,6 +27,7 @@ const TagForm = () => {
         addTag(tag).then((p) => {
             history.push("/tags");
             //navigate user back to main tags page
+            //useHistory() doesnt really work unless youre going to another view (cant use as automatic refresh)
         });
     };
 
