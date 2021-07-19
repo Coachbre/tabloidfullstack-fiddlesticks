@@ -18,8 +18,10 @@ const TagList = () => {
         <div className="container">
             <div className="row justify-content-center">
                 {tags.map((tag) => (
-                    <Tag tag={tag} 
-                    key={tag.id} />
+                    <Tag tag={tag} key={tag.id}
+                    
+                    getAllTags={getAllTags} key={tag.id}/>
+                    // ^ these are props, which allows the tag.js file to access objects/functions
                 ))}
             </div>
             <Link to="/tags/add">

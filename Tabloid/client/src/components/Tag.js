@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { deleteTag, getAllTags } from "../modules/tagManager";
 // import { TagList } from "TagList";
 import { Card, CardBody, Button } from "reactstrap";
-import { } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const Tag = ({ tag }) => {
+const Tag = ({ tag, getAllTags }) => {
 
     // const [updatedList, setUpdatedList] = useState([]);
 
@@ -12,7 +12,9 @@ const Tag = ({ tag }) => {
         evt.preventDefault();
         var results = (window.confirm('Delete the item?'))
         if (results) {
-            deleteTag(tag.id)
+            deleteTag(tag.id).then(() => {
+                getAllTags()
+            })
         };
     };
 
