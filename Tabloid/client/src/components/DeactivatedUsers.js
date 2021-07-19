@@ -10,6 +10,17 @@ const DeactivatedUsers = () => {
   const getDeactivated = () => {
     getDeactivatedUsers().then((users) => setDeactivated(users));
   };
+  const handleActivate = (e) => {
+    e.preventDefault();
+    var ActivateConfirm = window.confirm(`Activate user ${user.displayName}?`);
+    if (ActivateConfirm == true) {
+      // ActivateUser(user).then(() => {
+      history.push("/users/");
+      // });
+    } else {
+      history.push("users");
+    }
+  };
 
   useEffect(() => {
     // getDeactivated();
@@ -29,16 +40,26 @@ const DeactivatedUsers = () => {
                 <h5>Display Name</h5>
               </th>
               <th>
-                <h5>User Type</h5>
+                <h5>Email</h5>
               </th>
-              <th></th>
               <th></th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {deactivated.map((user) => (
-              <p>{user.displayName}</p>
+              <tr>
+                <td>{user.fullName}</td>
+                <td>{user.displayName}</td>
+                <td>{user.email}</td>
+                <td></td>
+
+                <td>
+                  <Button color="danger" onClick={handleActivate}>
+                    Activate
+                  </Button>
+                </td>
+              </tr>
             ))}
           </tbody>
         </Table>

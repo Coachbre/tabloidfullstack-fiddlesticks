@@ -12,7 +12,9 @@ const User = ({ user }) => {
       `Deactivate user ${user.displayName}?`
     );
     if (deactivateConfirm == true) {
-      deactivateUser(user).then(() => history.push("/users/deactivated"));
+      // deactivateUser(user).then(() => {
+      history.push("/users/deactivated");
+      // });
     } else {
       history.push("users");
     }
