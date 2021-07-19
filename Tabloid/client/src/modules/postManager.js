@@ -68,9 +68,9 @@ export const addPost = (post) => {
   });
 };
 
-export const deletePost = (id) => {
+export const deletePost = (postId) => {
   return getToken().then((token) => {
-    return fetch(`${baseUrl}/${id}`, {
+    return fetch(`${baseUrl}/delete/${postId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
