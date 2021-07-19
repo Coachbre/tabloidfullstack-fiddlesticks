@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardImg, CardBody, Button } from "reactstrap";
-import { Link, useParams } from "react-router-dom";
-import { getPostById } from "../modules/postManager";
+import { Link, useParams, useHistory } from "react-router-dom";
+import { getPostById, deletePost } from "../modules/postManager";
 
 const PostDetails = () => {
 
     const [post, setPost] = useState();
 
     const { id } = useParams();
+
+    const history = useHistory();
+
+    const deleteThePost = (event) => {
+        event.preventDefault()
+        const confirmDelete = window.confirm("Are you sure you would like to delete the post?")
+        if (confirmDelete) {
+            deletePost(post.id).then(() => {history.push('/post')})
+        };
+    }
 
     useEffect(() => {
         getPostById(id)
@@ -31,6 +41,7 @@ const PostDetails = () => {
                     <p>{new Date(post.publishDateTime).toLocaleDateString()}</p>
                     <Button className="b addComment"><Link className="a" to={`/comment/${post.id}`}>Add Comment</Link></Button>
                     <Button className="b viewComment"><Link className="a" to={`/comment/GetByPostId/${post.id}`}>View Comments</Link></Button>
+                    <Button className="b deletePost" onClick={deleteThePost}>Delete Post</Button>
                 </CardBody>
 
             </Card>
