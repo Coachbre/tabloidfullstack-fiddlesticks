@@ -58,7 +58,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           <CommentAddForm />
         </Route>
         <Route exact path="/myPost">
-          <MyPost /> 
+          {isLoggedIn ? <MyPost /> : <Redirect to="/login" />}
         </Route>
         <Route path="/post/add">
           {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
