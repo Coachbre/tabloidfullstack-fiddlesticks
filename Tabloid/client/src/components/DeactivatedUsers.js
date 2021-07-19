@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { useHistory } from "react-router-dom";
 import { getAllUsers, getDeactivatedUsers } from "../modules/userManager";
 import { Button, Table } from "reactstrap";
 import User from "./User";
@@ -7,18 +7,22 @@ import User from "./User";
 const DeactivatedUsers = () => {
   const [deactivated, setDeactivated] = useState([]);
 
+  const history = useHistory();
   const getDeactivated = () => {
     getDeactivatedUsers().then((users) => setDeactivated(users));
   };
   const handleActivate = (e) => {
     e.preventDefault();
-    var ActivateConfirm = window.confirm(`Activate user ${user.displayName}?`);
+    var ActivateConfirm = window
+      .confirm
+      // `Activate user ${user.displayName}?`
+      ();
     if (ActivateConfirm == true) {
       // ActivateUser(user).then(() => {
-      history.push("/users/");
+      history.push("/users");
       // });
     } else {
-      history.push("users");
+      history.push("/users");
     }
   };
 
