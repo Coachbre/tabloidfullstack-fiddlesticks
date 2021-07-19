@@ -15,6 +15,8 @@ import MyPost from "./MyPost";
 import PostDetails from "./PostDetail";
 import UserDetails from "./UserDetails";
 import PostForm from "./PostForm";
+import DeactivatedUsers from "./DeactivatedUsers"
+
 
 export default function ApplicationViews({ isLoggedIn, isAdmin }) {
   return (
@@ -97,6 +99,13 @@ export default function ApplicationViews({ isLoggedIn, isAdmin }) {
         <Route path="/users/:id(\d+)">
           {isLoggedIn && isAdmin ? (
             <UserDetails />
+          ) : (
+            [isLoggedIn && !isAdmin ? <Hello /> : <Redirect to="/login" />]
+          )}
+        </Route>
+        <Route path="/users/deactivated">
+          {isLoggedIn && isAdmin ? (
+            <DeactivatedUsers />
           ) : (
             [isLoggedIn && !isAdmin ? <Hello /> : <Redirect to="/login" />]
           )}

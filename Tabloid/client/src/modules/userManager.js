@@ -56,3 +56,44 @@ export const getCurrentUserType = () => {
     });
   });
 };
+
+export const deactivateUser = (user) => {
+  return getToken().then((token) => {
+    return fetch(`${apiUrl}/DeactivateUser/${user.id}`, {
+      method: "Put",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    // .then((resp) => {
+    //   if (resp.ok) {
+    //     return resp.json();
+    //   } else {
+    //     throw new Error(
+    //       "An unknown error occurred while trying to get User Type."
+    //     );
+    //   }
+    // });
+  });
+};
+
+export const getDeactivatedUsers = () => {
+  return getToken().then((token) => {
+    return fetch(`${apiUrl}/Deactivated`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((resp) => {
+      if (resp.ok) {
+        return resp.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to get Deactivated Users."
+        );
+      }
+    });
+  });
+};

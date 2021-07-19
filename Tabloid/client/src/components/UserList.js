@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { Link } from "react-router-dom";
 import { getAllUsers } from "../modules/userManager";
 import { Button, Table } from "reactstrap";
 import User from "./User";
@@ -41,7 +41,17 @@ const UserList = () => {
               </th>
               <th></th>
               <th></th>
-              <th></th>
+              <th>
+                <Button
+                  color="danger"
+                  tag={Link}
+                  to={`/users/deactivated`}
+                  //   type="submit"
+                  //   onClick={handleClick}
+                >
+                  Deactivated Users
+                </Button>
+              </th>
             </tr>
           </thead>
           <tbody>
